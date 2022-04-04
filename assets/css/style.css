@@ -1,0 +1,9 @@
+body {
+    background-color: black;
+}
+
+.figure {
+    height: 35vh;
+    width: 100vw;
+    align-items: center;
+}
