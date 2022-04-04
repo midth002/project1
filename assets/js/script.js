@@ -11,7 +11,7 @@ function getApi(city) {
             return response.json();
         })  
         .then(function (data) { 
-            for (i=0; i < data.length; i++) {
+           
 
                 var ul = $('<ul>')
                 var li1 = $('<li>')
@@ -20,16 +20,15 @@ function getApi(city) {
                 var li4 = $('<li>')
 
                 li1.text(data[i].name)
-                li1.text(data[i].brewery_type)
-                li1.text(data[i].street)
-                li1.text(data[i].website_url)
-            }
+                li2.text(data[i].brewery_type)
+                li3.text(data[i].street)
+                li4.text(data[i].website_url)
+
+                ul.append(li1, li2, li3, li4)
+                brewData.append(ul);
+            
         })
     
 }
-
-
-
-
 
 getApi("Minneapolis")
