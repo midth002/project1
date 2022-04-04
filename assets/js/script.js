@@ -12,7 +12,7 @@ function getApi(city) {
         })  
         .then(function (data) { 
            
-
+            for (i=0; i < data.length; i++) {
                 var ul = $('<ul>')
                 var li1 = $('<li>')
                 var li2 = $('<li>')
@@ -26,6 +26,8 @@ function getApi(city) {
 
                 ul.append(li1, li2, li3, li4)
                 brewData.append(ul);
+            }
+          
             
         })
     
