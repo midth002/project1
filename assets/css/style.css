@@ -1,9 +1,24 @@
-body {
+.welcomeSection {
+
+}
+.hero-body {
     background-color: black;
 }
 
 .figure {
-    height: 35vh;
     width: 100vw;
-    align-items: center;
+}
+.brewTitle {
+    display: flex;
+    position: relative;
+    top: -25vh;
+    /* justify-content: center;
+    align-content: center; */
+    margin-bottom: 50vh;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-weight: bolder;
+    font-size: 3.5rem;
+    color: white;
+    background-color: black;
+
 }
