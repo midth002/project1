@@ -2,7 +2,7 @@ var brewData = $(".brewData")
 var searchCity = $(".input")
 var searchButton = $(".button")
 var weatherData = $(".weatherData")
-var weatherContainer = $("weatherContainer")
+var weatherContainer = $(".weatherContainer")
 
 var apiKey = "385e58697effddc1169cee4d7d6e5489"
 var cityValue = searchCity.val().trim()
