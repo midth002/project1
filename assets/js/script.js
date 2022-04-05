@@ -1,6 +1,12 @@
 var brewData = $(".brewData")
+var searchCity = $(".input")
+var searchButton = $(".button")
+var weatherData = $(".weatherData")
+var weatherContainer = $("weatherContainer")
 
 var apiKey = "385e58697effddc1169cee4d7d6e5489"
+var cityValue = searchCity.val().trim()
+
 
 function getBreweryApi(city) {
 
@@ -58,33 +64,59 @@ function getWeatherByCity(city) {
         })
 
         .then(function (data) { 
+            console.log(data)
             lat = data[0].lat.toString()
             lon = data[0].lon.toString()
 
-            var weatherUrl = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&appid=385e58697effddc1169cee4d7d6e5489&units=imperial"
+            var weatherUrl = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&appid=" + apiKey + "&units=imperial"
 
-            fetch(weatherUrl) 
-                .then(function (response) {
-                    return response.json();
-                })
-                .then(function (data) {
-                    console.log(data)
-                    console.log("------ Current Weather --------")
-                    console.log("Temp: " + data.current.temp.toFixed() + "°F")
-                    console.log("Wind: " + data.current.wind_speed.toFixed() + " MPH")
-                    console.log("Humidity: " + data.current.humidity + "%")
-                    console.log("UV Index: " + data.current.uvi) 
-                    var sunset = data.current.sunset
-                    console.log("Sunset: " + convertUnixTime(sunset))
-                    console.log("------ Weekend Forecast --------")
+            // fetch(weatherUrl) 
+            //     .then(function (response) {
+            //         return response.json();
+            //     })
+            //     .then(function (data) {
+            //         console.log(data)
+            //         // console.log("------ Current Weather --------")
+            //         // console.log("Temp: " + data.current.temp.toFixed() + "°F")
+            //         // console.log("Wind: " + data.current.wind_speed.toFixed() + " MPH")
+            //         // console.log("Humidity: " + data.current.humidity + "%")
+            //         // console.log("UV Index: " + data.current.uvi) 
+            //         // var sunset = data.current.sunset
+            //         // console.log("Sunset: " + convertUnixTime(sunset))
+            //         // console.log("------ Weekend Forecast --------")
 
-                    for (i=1; i < 5; i++) {
-                        var unix = data.daily[i].dt
-                        var forecastDate = dateFormatter(unix);
-                        console.log(forecastDate)
+            //         // // Current weather element created
+            //         // var currentDiv = $('<div>')
+            //         // var weatherTitle = $('<h4>')
+            //         // var currentUl = $('<ul>')
+            //         // var tempLi = $("<li>")
+            //         // var windLi = $("<li>")
+            //         // var humLi = $("<li>")
+            //         // var uvLi = $("<li>")
+            //         // var sunsetLi = $("<li>")
 
-                    } 
-                })
+            //         // // Add text to weather elements
+            //         // weatherTitle.text("Currently in: " + city)
+            //         // tempLi.text(data.current.temp.toFixed())
+            //         // windLi.text(data.current.wind_speed.toFixed())
+            //         // humLi.text(data.current.humidity)
+            //         // uvLi.text(data.current.uvi)
+            //         // sunsetLi.text(convertUnixTime(sunset))
+
+            //         // // Append elements to the weathercontainer
+            //         // currentUl.append(tempLi, windLi, humLi, uvLi, sunsetLi)
+            //         // currentDiv.append(weatherTitle, currentUl)
+            //         // weatherData.append(currentDiv)
+            //         // weatherContainer.append(weatherData)
+
+
+            //         // for (i=1; i < 5; i++) {
+            //         //     var unix = data.daily[i].dt
+            //         //     var forecastDate = dateFormatter(unix);
+            //         //     console.log(forecastDate)
+
+            //         // } 
+            //     })
         })
     }
     
@@ -101,5 +133,11 @@ function dateFormatter(unixTime) {
     return dateString;
 }
 
-getBreweryApi("Minneapolis");
-getWeatherByCity("Minneapolis");
+searchButton.on("click", function(e) {
+    e.preventDefault();
+    getBreweryApi(cityValue)
+    getWeatherByCity(cityValue)
+
+})
+
+
