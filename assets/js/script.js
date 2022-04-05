@@ -43,7 +43,7 @@ function createBrewCard(data) {
         ul.append(li1, li2, li3, li4, li5);
         brewDiv.append(brewName, ul)
         brewData.append(brewDiv);
-      
+             
     }
 }
 
