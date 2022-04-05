@@ -2,10 +2,9 @@ var brewData = $(".brewData")
 var searchCity = $(".input")
 var searchButton = $(".button")
 var weatherData = $(".weatherData")
-var weatherContainer = $("weatherContainer")
+var weatherContainer = $(".weatherContainer")
 
 var apiKey = "385e58697effddc1169cee4d7d6e5489"
-var cityValue = searchCity.val().trim()
 
 
 function getBreweryApi(city) {
@@ -16,6 +15,7 @@ function getBreweryApi(city) {
             return response.json();
         })  
         .then(function (data) { 
+            console.log(brewUrl)
             createBrewCard(data)
         })
     
@@ -138,7 +138,7 @@ function dateFormatter(unixTime) {
 
 searchButton.on("click", function(e) {
     e.preventDefault();
-    getBreweryApi(cityValue);
+    getBreweryApi(searchCity.val().trim());
     getWeatherByCity(searchCity.val().trim());
 
 })
