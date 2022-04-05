@@ -1,15 +1,21 @@
 var brewData = $(".brewData")
+var searchCity = $(".input")
+var searchButton = $(".button")
+var weatherData = $(".weatherData")
+var weatherContainer = $(".weatherContainer")
 
 var apiKey = "385e58697effddc1169cee4d7d6e5489"
+var perPage = "3"
 
 function getBreweryApi(city) {
 
-    var brewUrl = "https://api.openbrewerydb.org/breweries?per_page=5&by_city=" + city
+    var brewUrl = "https://api.openbrewerydb.org/breweries?per_page=" + perPage + "&by_city=" + city
     fetch(brewUrl)
         .then(function (response) {
             return response.json();
         })  
         .then(function (data) { 
+            console.log(brewUrl)
             createBrewCard(data)
         })
     
@@ -18,7 +24,7 @@ function getBreweryApi(city) {
 function createBrewCard(data) {
     for (i=0; i < data.length; i++) {
                 
-        var brewDiv = $('<div>')
+        var brewDiv = $('<div>').addClass("brewCard");
         var brewName = $("<h3>");
         var ul = $('<ul>');
         var li1 = $('<li>');
@@ -31,14 +37,14 @@ function createBrewCard(data) {
         brewLink.text("Website");
 
         brewName.text(data[i].name);
-        li1.text(data[i].brewery_type);
-        li2.text(data[i].street);
-        li3.text(data[i].city);
+        li1.text("Brewery Type: " + data[i].brewery_type);
+        li2.text("Street Address: " + data[i].street);
+        li3.text(data[i].city + ",");
         li4.text(data[i].state);
         
-        brewName.attr("style", "font-weight: bold");
-        brewDiv.attr("style", "border: 2px solid black; margin: 2px; width: 20%;");
-       
+        brewName.attr("style", "font-size: 2rem", "font-weight: bolder");
+        brewDiv.attr("style", "border: 3px dashed ; margin: 2px; width: 35%; padding-left: 10px; padding-right: 10px; padding-bottom: 10px;");
+        //ul.children().attr("style", "position: center")
 
         li5.append(brewLink);
         ul.append(li1, li2, li3, li4, li5);
@@ -48,9 +54,9 @@ function createBrewCard(data) {
     }
 }
 
-function getWeatherByCity(city) {
+function getWeatherByCity(name) {
     
-    var latLonUrl =  "https://api.openweathermap.org/geo/1.0/direct?q=" + city + "&limit=1&appid=" + apiKey
+    var latLonUrl =  "https://api.openweathermap.org/geo/1.0/direct?q="+ name +"&limit=1&appid=" + apiKey
 
     fetch(latLonUrl) 
         .then(function (response) {
@@ -58,33 +64,62 @@ function getWeatherByCity(city) {
         })
 
         .then(function (data) { 
-            lat = data[0].lat.toString()
-            lon = data[0].lon.toString()
+            console.log(data)
+             lat = data[0].lat.toString()
+             lon = data[0].lon.toString()
 
-            var weatherUrl = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&appid=385e58697effddc1169cee4d7d6e5489&units=imperial"
+             var weatherUrl = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&appid=" + apiKey + "&units=imperial"
 
-            fetch(weatherUrl) 
+             fetch(weatherUrl) 
                 .then(function (response) {
                     return response.json();
                 })
-                .then(function (data) {
-                    console.log(data)
-                    console.log("------ Current Weather --------")
-                    console.log("Temp: " + data.current.temp.toFixed() + "°F")
-                    console.log("Wind: " + data.current.wind_speed.toFixed() + " MPH")
-                    console.log("Humidity: " + data.current.humidity + "%")
-                    console.log("UV Index: " + data.current.uvi) 
-                    var sunset = data.current.sunset
-                    console.log("Sunset: " + convertUnixTime(sunset))
-                    console.log("------ Weekend Forecast --------")
+                 .then(function (data) {
+                       console.log(data)
+            //         // console.log("------ Current Weather --------")
+            //         // console.log("Temp: " + data.current.temp.toFixed() + "°F")
+            //         // console.log("Wind: " + data.current.wind_speed.toFixed() + " MPH")
+            //         // console.log("Humidity: " + data.current.humidity + "%")
+            //         // console.log("UV Index: " + data.current.uvi) 
+            var sunset = data.current.sunset
+            //         // console.log("Sunset: " + convertUnixTime(sunset))
+            //         // console.log("------ Weekend Forecast --------")
 
-                    for (i=1; i < 5; i++) {
-                        var unix = data.daily[i].dt
-                        var forecastDate = dateFormatter(unix);
-                        console.log(forecastDate)
+                      // Current weather element created
+                      var currentDiv = $('<div>').addClass("weatherCard");
+                      var weatherTitle = $('<h4>')
+                      var currentUl = $('<ul>')
+                      var tempLi = $("<li>")
+                      var windLi = $("<li>")
+                      var humLi = $("<li>")
+                      var uvLi = $("<li>")
+                      var sunsetLi = $("<li>")
 
-                    } 
-                })
+                     // Add text to weather elements
+                      weatherTitle.text("Currently in: " + name)
+                      tempLi.text("Temp: " + data.current.temp.toFixed() + "°F")
+                      windLi.text("Wind: " + data.current.wind_speed.toFixed() + " MPH")
+                      humLi.text("Humidity: " + data.current.humidity + "%")
+                      uvLi.text("UV Index: " + data.current.uvi)
+                      sunsetLi.text("Sunset: " + convertUnixTime(sunset))
+
+                      currentDiv.attr("style", "background-color: white;")
+
+                     // Append elements to the weathercontainer
+                     currentUl.append(tempLi, windLi, humLi, uvLi, sunsetLi)
+                     currentDiv.append(weatherTitle, currentUl)
+                     weatherData.append(currentDiv)
+                     weatherContainer.append(weatherData)
+                     
+
+                      for (i=1; i < 6; i++) {
+                          var unix = data.daily[i].dt
+                          var forecastDate = dateFormatter(unix);
+                          var day = moment(forecastDate, "M/D/YYYY").format("ddd")
+                          console.log(day)
+
+                     } 
+                 })
         })
     }
     
@@ -101,5 +136,20 @@ function dateFormatter(unixTime) {
     return dateString;
 }
 
-getBreweryApi("Minneapolis");
-getWeatherByCity("Minneapolis");
+function removeCard() {
+    $(".brewCard").remove();
+    $(".weatherCard").remove();
+}
+
+
+
+
+searchButton.on("click", function(e) {
+    e.preventDefault();
+    removeCard();
+    getBreweryApi(searchCity.val().trim());
+    getWeatherByCity(searchCity.val().trim());
+
+})
+
+
