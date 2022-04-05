@@ -7,6 +7,13 @@ var weatherContainer = $(".weatherContainer")
 var apiKey = "385e58697effddc1169cee4d7d6e5489"
 var perPage = "3"
 
+function init() {
+    var searchParamArr = document.location.search.split('?q=')
+    var initialSearch = searchParamArr[1];
+    getBreweryApi(initialSearch);
+    getWeatherByCity(initialSearch);
+}
+
 function getBreweryApi(city) {
 
     var brewUrl = "https://api.openbrewerydb.org/breweries?per_page=" + perPage + "&by_city=" + city
@@ -152,4 +159,5 @@ searchButton.on("click", function(e) {
 
 })
 
+init();
 
