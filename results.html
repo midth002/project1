@@ -9,14 +9,29 @@
     <link rel="stylesheet" href="./assets/css/style.css">
 </head>
 <body>
-    <section id="brewContainer">
+   <div class="columns">
+    <div class="column">
+    <form class="box" id="brewContainer">
+        <div class="field">
+          <label class="label"></label>
+          <div class="control">
+            <input class="input" type="" placeholder="Search Breweries">
+          </div>
+          </div>
+        </div>
+      
+        <button class="button is-primary">Search</button>
+      </form>
+    <section >
         <div class="brewData"></div>
+        
     </section>
-    
+</div>  
+<div class="columns">
     <section id="weatherContainer">
         <div class="weatherData"></div>
     </section>
-
+</div>  
 
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.2/moment.min.js"></script>
