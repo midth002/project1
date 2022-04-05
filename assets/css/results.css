@@ -1,3 +1,16 @@
+body {
+    background-image: url("https://cutewallpaper.org/21/beer-desktop-wallpaper/1920x1080-Beer-Wall-desktop-PC-and-Mac-wallpaper.jpg");
+    min-height: 100vh;
+}
+.box {
+    max-height: 100vh;
+}
+h1 {
+    font-size: 3rem;
+    font-weight: bolder;
+    text-decoration: underline;
+    text-align: center;
+}
 .brewData {
     background-color: rgb(128, 128, 128);
     padding: 20px;
@@ -18,4 +31,3 @@
     font-size: 20px;
     width: 300px;
 }
-
