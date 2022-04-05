@@ -1,6 +1,12 @@
 var brewData = $(".brewData")
+var searchCity = $(".input")
+var searchButton = $(".button")
+var weatherData = $(".weatherData")
+var weatherContainer = $("weatherContainer")
 
 var apiKey = "385e58697effddc1169cee4d7d6e5489"
+var cityValue = searchCity.val().trim()
+
 
 function getBreweryApi(city) {
 
@@ -48,9 +54,9 @@ function createBrewCard(data) {
     }
 }
 
-function getWeatherByCity(city) {
+function getWeatherByCity(name) {
     
-    var latLonUrl =  "https://api.openweathermap.org/geo/1.0/direct?q=" + city + "&limit=1&appid=" + apiKey
+    var latLonUrl =  "https://api.openweathermap.org/geo/1.0/direct?q="+ name +"&limit=1&appid=" + apiKey
 
     fetch(latLonUrl) 
         .then(function (response) {
@@ -58,33 +64,62 @@ function getWeatherByCity(city) {
         })
 
         .then(function (data) { 
-            lat = data[0].lat.toString()
-            lon = data[0].lon.toString()
+            console.log(data)
+             lat = data[0].lat.toString()
+             lon = data[0].lon.toString()
 
-            var weatherUrl = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&appid=385e58697effddc1169cee4d7d6e5489&units=imperial"
+             var weatherUrl = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&appid=" + apiKey + "&units=imperial"
 
-            fetch(weatherUrl) 
+             fetch(weatherUrl) 
                 .then(function (response) {
                     return response.json();
                 })
-                .then(function (data) {
-                    console.log(data)
-                    console.log("------ Current Weather --------")
-                    console.log("Temp: " + data.current.temp.toFixed() + "°F")
-                    console.log("Wind: " + data.current.wind_speed.toFixed() + " MPH")
-                    console.log("Humidity: " + data.current.humidity + "%")
-                    console.log("UV Index: " + data.current.uvi) 
-                    var sunset = data.current.sunset
-                    console.log("Sunset: " + convertUnixTime(sunset))
-                    console.log("------ Weekend Forecast --------")
+                 .then(function (data) {
+                       console.log(data)
+            //         // console.log("------ Current Weather --------")
+            //         // console.log("Temp: " + data.current.temp.toFixed() + "°F")
+            //         // console.log("Wind: " + data.current.wind_speed.toFixed() + " MPH")
+            //         // console.log("Humidity: " + data.current.humidity + "%")
+            //         // console.log("UV Index: " + data.current.uvi) 
+            var sunset = data.current.sunset
+            //         // console.log("Sunset: " + convertUnixTime(sunset))
+            //         // console.log("------ Weekend Forecast --------")
 
-                    for (i=1; i < 5; i++) {
-                        var unix = data.daily[i].dt
-                        var forecastDate = dateFormatter(unix);
-                        console.log(forecastDate)
+                      // Current weather element created
+                      var currentDiv = $('<div>')
+                      var weatherTitle = $('<h4>')
+                      var currentUl = $('<ul>')
+                      var tempLi = $("<li>")
+                      var windLi = $("<li>")
+                      var humLi = $("<li>")
+                      var uvLi = $("<li>")
+                      var sunsetLi = $("<li>")
 
-                    } 
-                })
+                     // Add text to weather elements
+                      weatherTitle.text("Currently in: " + name)
+                      tempLi.text("Temp: " + data.current.temp.toFixed() + "°F")
+                      windLi.text("Wind: " + data.current.wind_speed.toFixed() + " MPH")
+                      humLi.text("Humidity: " + data.current.humidity + "%")
+                      uvLi.text("UV Index: " + data.current.uvi)
+                      sunsetLi.text("Sunset: " + convertUnixTime(sunset))
+
+                      currentDiv.attr("style", "background-color: white;")
+
+                     // Append elements to the weathercontainer
+                     currentUl.append(tempLi, windLi, humLi, uvLi, sunsetLi)
+                     currentDiv.append(weatherTitle, currentUl)
+                     weatherData.append(currentDiv)
+                     weatherContainer.append(weatherData)
+
+
+                      for (i=1; i < 6; i++) {
+                          var unix = data.daily[i].dt
+                          var forecastDate = dateFormatter(unix);
+                          var day = moment(forecastDate, "M/D/YYYY").format("ddd")
+                          console.log(day)
+
+                     } 
+                 })
         })
     }
     
@@ -101,5 +136,11 @@ function dateFormatter(unixTime) {
     return dateString;
 }
 
-getBreweryApi("Minneapolis");
-getWeatherByCity("Minneapolis");
+searchButton.on("click", function(e) {
+    e.preventDefault();
+    getBreweryApi(cityValue);
+    getWeatherByCity(searchCity.val().trim());
+
+})
+
+
