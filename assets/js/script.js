@@ -25,7 +25,6 @@ function getBreweryApi(city) {
             console.log(data)
             createBrewCard(data)
         })
-    
 }
 
 function createBrewCard(data) {
