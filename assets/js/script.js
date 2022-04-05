@@ -100,5 +100,5 @@ function dateFormatter(unixTime) {
     return dateString;
 }
 
-getApi("Minneapolis")
-getWeatherByCity("Minneapolis")
+getBreweryApi("Minneapolis");
+getWeatherByCity("Minneapolis");
