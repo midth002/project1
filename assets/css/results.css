@@ -1,0 +1,21 @@
+.brewData {
+    background-color: gray;
+    padding: 20px;
+    margin: 10px;
+    /* width: 400px; */
+}
+
+.brewData h3 {
+    background-color: green;
+    padding: 5px 20px;
+    font-size: 30px;
+    width: 300px;
+}
+
+.brewData ul {
+    background-color: red;
+    padding: 10px;
+    font-size: 20px;
+    width: 300px;
+}
+
