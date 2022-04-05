@@ -37,14 +37,14 @@ function createBrewCard(data) {
         brewLink.text("Website");
 
         brewName.text(data[i].name);
-        li1.text(data[i].brewery_type);
-        li2.text(data[i].street);
-        li3.text(data[i].city);
+        li1.text("Brewery Type: " + data[i].brewery_type);
+        li2.text("Street Address: " + data[i].street);
+        li3.text(data[i].city + ",");
         li4.text(data[i].state);
         
-        brewName.attr("style", "font-weight: bold");
-        brewDiv.attr("style", "border: 2px solid black; margin: 2px; width: 20%;");
-       
+        brewName.attr("style", "font-size: 2rem", "font-weight: bolder");
+        brewDiv.attr("style", "border: 3px dashed ; margin: 2px; width: 35%; padding-left: 10px; padding-right: 10px; padding-bottom: 10px;");
+        //ul.children().attr("style", "position: center")
 
         li5.append(brewLink);
         ul.append(li1, li2, li3, li4, li5);

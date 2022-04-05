@@ -1,6 +1,10 @@
-.welcomeSection {
+/* .welcomeSection {
 
+} */
+* {
+    background-color: black;
 }
+
 .hero-body {
     background-color: black;
 }
@@ -11,14 +15,17 @@
 .brewTitle {
     display: flex;
     position: relative;
-    top: -25vh;
-    /* justify-content: center;
-    align-content: center; */
+    top: -250px;
+    justify-content: center;
     margin-bottom: 50vh;
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
     font-weight: bolder;
-    font-size: 3.5rem;
+    font-size: 3rem;
     color: white;
     background-color: black;
 
 }
+
+/* .box {
+    background-color: black;
+} */
