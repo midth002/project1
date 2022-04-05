@@ -5,11 +5,11 @@ var weatherData = $(".weatherData")
 var weatherContainer = $(".weatherContainer")
 
 var apiKey = "385e58697effddc1169cee4d7d6e5489"
-
+var perPage = "3"
 
 function getBreweryApi(city) {
 
-    var brewUrl = "https://api.openbrewerydb.org/breweries?per_page=5&by_city=" + city
+    var brewUrl = "https://api.openbrewerydb.org/breweries?per_page=" + perPage + "&by_city=" + city
     fetch(brewUrl)
         .then(function (response) {
             return response.json();
@@ -24,7 +24,7 @@ function getBreweryApi(city) {
 function createBrewCard(data) {
     for (i=0; i < data.length; i++) {
                 
-        var brewDiv = $('<div>')
+        var brewDiv = $('<div>').addClass("brewCard");
         var brewName = $("<h3>");
         var ul = $('<ul>');
         var li1 = $('<li>');
@@ -86,7 +86,7 @@ function getWeatherByCity(name) {
             //         // console.log("------ Weekend Forecast --------")
 
                       // Current weather element created
-                      var currentDiv = $('<div>')
+                      var currentDiv = $('<div>').addClass("weatherCard");
                       var weatherTitle = $('<h4>')
                       var currentUl = $('<ul>')
                       var tempLi = $("<li>")
@@ -110,7 +110,7 @@ function getWeatherByCity(name) {
                      currentDiv.append(weatherTitle, currentUl)
                      weatherData.append(currentDiv)
                      weatherContainer.append(weatherData)
-
+                     
 
                       for (i=1; i < 6; i++) {
                           var unix = data.daily[i].dt
@@ -136,8 +136,17 @@ function dateFormatter(unixTime) {
     return dateString;
 }
 
+function removeCard() {
+    $(".brewCard").remove();
+    $(".weatherCard").remove();
+}
+
+
+
+
 searchButton.on("click", function(e) {
     e.preventDefault();
+    removeCard();
     getBreweryApi(searchCity.val().trim());
     getWeatherByCity(searchCity.val().trim());
 
