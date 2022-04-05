@@ -38,6 +38,7 @@ function createBrewCard(data) {
         
         brewName.attr("style", "font-weight: bold");
         brewDiv.attr("style", "border: 2px solid black; margin: 2px; width: 20%;");
+       
 
         li5.append(brewLink);
         ul.append(li1, li2, li3, li4, li5);
