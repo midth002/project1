@@ -14,14 +14,35 @@
           <div class="box is-align-items-center">
             <figure class="image is-fullwidth">
                 <img src="https://www.mantelligence.com/wp-content/uploads/2020/11/The-Best-Beer-of-the-Month-Club-v2-reviews-sliver.jpg">
+<<<<<<< HEAD
              </figure>
               <section class="brewTitle is-justify-content-center">🍻 FUZZY SEARCH BREWERIES NEAR YOU 🍻</section>
+=======
+              </figure>
+              <section class="brewTitle is-justify-content-center">🍻 SEARCH BREWERIES NEAR YOU! 🍻</section>
+>>>>>>> main
               <form class="hero" id="brewContainer">
                 <div class="field">
                     <label class="label"></label>
-                    <div class="control">
-                      <input class="input" type="" placeholder="Search Breweries">
-                      <button class="button is-medium is-primary">Search</button>
+                    <div class="control columns is-flex">
+                      <input class="input column is-4" type="" placeholder="Search Breweries">
+                      <button class="column is-2 button button-search-city is-medium is-primary">Search</button>
+                      <button class="column is-2 button button-location is-medium is-primary" id="location-button">Search By Location</button>
+                      <div class="select">
+                        <select id="brewTypeOption">
+                          <option value="" disabled selected>Filter by Type of Brewery</option>
+                          <option value="micro">Micro</option>
+                          <option value="nano">Nano</option>
+                          <option value="regional">Regional</option>
+                          <option value="brewpub">Brewpub</option>
+                          <option value="large">Large</option>
+                          <option value="bar">Bar</option>
+                          <option value="planning">Planning</option>
+                          <option value="contract">Contract</option>
+                          <option value="all">All</option>
+                        </select>
+                      </div>
+
                       <div class="brewData has-text-left"></div>
                     </div>
                   </div>
