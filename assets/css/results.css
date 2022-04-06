@@ -22,21 +22,31 @@ h4 {
 }
 .brewData {
     background-color: rgb(128, 128, 128);
+.control {
+    display: block;
+}
+
+.brewData {
+    flex-direction: column;
+    /* width: 100%; */
+    background-color: black;
     padding: 20px;
     margin: 10px;
-    /* width: 400px; */
+    
 }
 .brewData h3 {
-    background-color: green;
-    padding: 5px 20px;
+    background-color: gray;
+    padding: 5px;
     font-size: 30px;
-    width: 300px;
+    width: 100%;
+
 }
 .brewData ul {
     background-color: red;
     padding: 10px;
     font-size: 20px;
-    width: 300px;
+    width: 100%;
+
 }
 li {
  font-size: 1.5rem;
