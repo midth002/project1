@@ -8,7 +8,7 @@ var locationButton = $("#location-button")
 var checkboxes = $('input[type=checkbox')
 
 var apiKey = "385e58697effddc1169cee4d7d6e5489"
-var perPage = "50"
+var perPage = "3"
 
 var favoriteArray = []
 var storedFavorites
@@ -201,6 +201,7 @@ function weatherOneCall(lat, lon, name) {
                return response.json();
            })
             .then(function (data) {
+                console.log(data)
                    var sunset = data.current.sunset
 
                  // Current weather element created
@@ -238,14 +239,47 @@ function weatherOneCall(lat, lon, name) {
                
                 
                // 5 day forecast loop
-                 for (i=1; i < 6; i++) {
-                     var unix = data.daily[i].dt
-                     var forecastDate = dateFormatter(unix);
-                     var day = moment(forecastDate, "M/D/YYYY").format("ddd")
-                    console.log(day)
-                } 
+               displayForecast(data)
             })
 }
+
+// New Function
+function displayForecast(data) {
+    for (i=1; i<8; i++) {
+
+        var unix = data.daily[i].dt
+        var forecastDate = dateFormatter(unix);
+        var day = moment(forecastDate, "M/D/YYYY").format("ddd")
+
+        var forecastCard = $('<div>')
+        var forecastHeading = $('<div>')
+        var forecastHeader = $('<h4>')
+        var weatherIcon = $('<span>')
+        weatherIcon.html("<img src='https://openweathermap.org/img/w/" + data.daily[i].weather[0].icon + ".png' alt='Icon depicting weather.'>"); 
+
+        var tempEl = $('<p>')
+        var spanMinTemp = $('<span>')
+        forecastHeader.text(day)
+        tempEl.text(data.daily[i].temp.max.toFixed() + "°  ")
+        spanMinTemp.text(data.daily[i].temp.min.toFixed() + "°")
+
+        forecastHeader.attr("style", "height:10%; line-height:0; margin-top: 15px; margin-right: 5px; font-size: 20px")
+        
+        forecastCard.attr("style", "display: inline-block; overflow: hidden; margin: 0 10px; justify-content:center width: 20%")
+        spanMinTemp.attr("style", "color:grey")
+        tempEl.attr("style", "font-weight:bold; font-size: 12px; text-align: center")
+
+        tempEl.append(spanMinTemp)
+        forecastHeading.append(forecastHeader, weatherIcon);
+        forecastCard.append(forecastHeading, tempEl);
+        weatherData.append(forecastCard);
+
+    }
+    weatherContainer.attr("stlye", "display:flex; justify-content: center")
+   
+    
+}
+
 
 function convertUnixTime(unixTime) {
     var time = new Date(unixTime)
