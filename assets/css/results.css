@@ -1,15 +1,24 @@
 body {
-    background-image: url("https://cutewallpaper.org/21/beer-desktop-wallpaper/1920x1080-Beer-Wall-desktop-PC-and-Mac-wallpaper.jpg");
+    background-image: url("https://mcdn.wallpapersafari.com/medium/91/65/gI2wco.jpg");
     min-height: 100vh;
+    text-transform: capitalize;
 }
-.box {
-    max-height: 100vh;
+#entireBox {
+    border: 5px solid gold;
 }
 h1 {
     font-size: 3rem;
     font-weight: bolder;
-    text-decoration: underline;
     text-align: center;
+    border: 15px dotted gold;
+    font-family: 'Monoton';
+}
+h4 {
+    font-size: 2rem;
+    font-family:  Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 2rem;
 }
 .brewData {
     background-color: rgb(128, 128, 128);
@@ -17,17 +26,24 @@ h1 {
     margin: 10px;
     /* width: 400px; */
 }
-
 .brewData h3 {
     background-color: green;
     padding: 5px 20px;
     font-size: 30px;
     width: 300px;
 }
-
 .brewData ul {
     background-color: red;
     padding: 10px;
     font-size: 20px;
     width: 300px;
+}
+li {
+ font-size: 1.5rem;
+ text-align: center;
+ line-height: 3rem;
+ font-family: 'Oufit';
+}
+img {
+    min-width: 6rem;
 }
