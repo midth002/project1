@@ -1,3 +1,27 @@
+body {
+    background-image: url("https://mcdn.wallpapersafari.com/medium/91/65/gI2wco.jpg");
+    min-height: 100vh;
+    text-transform: capitalize;
+}
+#entireBox {
+    border: 5px solid gold;
+}
+h1 {
+    font-size: 3rem;
+    font-weight: bolder;
+    text-align: center;
+    border: 15px dotted gold;
+    font-family: 'Monoton';
+}
+h4 {
+    font-size: 2rem;
+    font-family:  Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 2rem;
+}
+.brewData {
+    background-color: rgb(128, 128, 128);
 .control {
     display: block;
 }
@@ -10,7 +34,6 @@
     margin: 10px;
     
 }
-
 .brewData h3 {
     background-color: gray;
     padding: 5px;
@@ -18,7 +41,6 @@
     width: 100%;
 
 }
-
 .brewData ul {
     background-color: white;
     padding: 10px;
@@ -26,6 +48,12 @@
     width: 100%;
 
 }
-
-
-
+li {
+ font-size: 1.5rem;
+ text-align: center;
+ line-height: 3rem;
+ font-family: 'Oufit';
+}
+img {
+    min-width: 6rem;
+}
