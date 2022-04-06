@@ -99,11 +99,11 @@ function getWeatherByCity(name) {
 
                      // Add text to weather elements
                       weatherTitle.text("Currently in: " + name + "  ")
-                      tempLi.text("Temp: " + data.current.temp.toFixed() + "°F")
-                      windLi.text("Wind: " + data.current.wind_speed.toFixed() + " MPH")
-                      humLi.text("Humidity: " + data.current.humidity + "%")
-                      uvLi.text("UV Index: " + data.current.uvi)
-                      sunsetLi.text("Sunset: " + convertUnixTime(sunset))
+                      tempLi.text("⁌Temperature: " + data.current.temp.toFixed() + "°F")
+                      windLi.text("⁌Wind Speed: " + data.current.wind_speed.toFixed() + " MPH")
+                      humLi.text("⁌Humidity: " + data.current.humidity + "%")
+                      uvLi.text("⁌UV Index: " + data.current.uvi)
+                      sunsetLi.text("⁌Sunset: " + convertUnixTime(sunset))
                       currentWeatherIcon.html("<img src='https://openweathermap.org/img/w/" + data.current.weather[0].icon + ".png' alt='Icon depicting current weather.'>");
                       
 
@@ -160,4 +160,3 @@ searchButton.on("click", function(e) {
 })
 
 init();
-
