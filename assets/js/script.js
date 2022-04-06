@@ -7,6 +7,13 @@ var weatherContainer = $(".weatherContainer")
 var apiKey = "385e58697effddc1169cee4d7d6e5489"
 var perPage = "3"
 
+function init() {
+    var searchParamArr = document.location.search.split('?q=')
+    var initialSearch = searchParamArr[1];
+    getBreweryApi(initialSearch);
+    getWeatherByCity(initialSearch);
+}
+
 function getBreweryApi(city) {
 
     var brewUrl = "https://api.openbrewerydb.org/breweries?per_page=" + perPage + "&by_city=" + city
@@ -15,7 +22,7 @@ function getBreweryApi(city) {
             return response.json();
         })  
         .then(function (data) { 
-            console.log(brewUrl)
+            console.log(data)
             createBrewCard(data)
         })
     
@@ -48,7 +55,7 @@ function createBrewCard(data) {
 
         li5.append(brewLink);
         ul.append(li1, li2, li3, li4, li5);
-        brewDiv.append(brewName, ul)
+        brewDiv.append(brewName, ul);
         brewData.append(brewDiv);
              
     }
@@ -75,19 +82,14 @@ function getWeatherByCity(name) {
                     return response.json();
                 })
                  .then(function (data) {
-                       console.log(data)
-            //         // console.log("------ Current Weather --------")
-            //         // console.log("Temp: " + data.current.temp.toFixed() + "°F")
-            //         // console.log("Wind: " + data.current.wind_speed.toFixed() + " MPH")
-            //         // console.log("Humidity: " + data.current.humidity + "%")
-            //         // console.log("UV Index: " + data.current.uvi) 
-            var sunset = data.current.sunset
-            //         // console.log("Sunset: " + convertUnixTime(sunset))
-            //         // console.log("------ Weekend Forecast --------")
-
+        
+                        var sunset = data.current.sunset
+   
                       // Current weather element created
                       var currentDiv = $('<div>').addClass("weatherCard");
                       var weatherTitle = $('<h4>')
+                      var iconSpan = $('<span>')
+                      var currentWeatherIcon = $('<i>')
                       var currentUl = $('<ul>')
                       var tempLi = $("<li>")
                       var windLi = $("<li>")
@@ -96,22 +98,27 @@ function getWeatherByCity(name) {
                       var sunsetLi = $("<li>")
 
                      // Add text to weather elements
-                      weatherTitle.text("Currently in: " + name)
+                      weatherTitle.text("Currently in: " + name + "  ")
                       tempLi.text("Temp: " + data.current.temp.toFixed() + "°F")
                       windLi.text("Wind: " + data.current.wind_speed.toFixed() + " MPH")
                       humLi.text("Humidity: " + data.current.humidity + "%")
                       uvLi.text("UV Index: " + data.current.uvi)
                       sunsetLi.text("Sunset: " + convertUnixTime(sunset))
+                      currentWeatherIcon.html("<img src='https://openweathermap.org/img/w/" + data.current.weather[0].icon + ".png' alt='Icon depicting current weather.'>");
+                      
 
                       currentDiv.attr("style", "background-color: white;")
+                      iconSpan.attr("style", "margin-left: 5px;")
 
                      // Append elements to the weathercontainer
+                     iconSpan.append(currentWeatherIcon);
+                     weatherTitle.append(iconSpan)
                      currentUl.append(tempLi, windLi, humLi, uvLi, sunsetLi)
                      currentDiv.append(weatherTitle, currentUl)
                      weatherData.append(currentDiv)
                      weatherContainer.append(weatherData)
                      
-
+                    // 5 day forecast loop
                       for (i=1; i < 6; i++) {
                           var unix = data.daily[i].dt
                           var forecastDate = dateFormatter(unix);
@@ -152,4 +159,5 @@ searchButton.on("click", function(e) {
 
 })
 
+init();
 
