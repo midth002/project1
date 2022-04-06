@@ -129,7 +129,6 @@ function createBrewCard(data) {
         var li1 = $('<li>');
         var li2 = $('<li>');
         var li3 = $('<li class="brew-city">');
-        
         var li5 = $('<li>'); 
         var brewLink = $('<a>');
         brewLink.attr("href" , data[i].website_url)
@@ -151,10 +150,9 @@ function createBrewCard(data) {
         li5.append(brewLink);
         ul.append(li1, li2, li3, li5);
         headingDiv.append(brewName, favoriteLabel)
-        brewDiv.append(headingDiv, ul,);
+        brewDiv.append(headingDiv, ul);
         brewData.append(brewDiv);
 
-        
     }
 
     checkFavorite();
@@ -237,7 +235,7 @@ function weatherOneCall(lat, lon, name) {
                 currentDiv.append(weatherTitle, currentUl)
                 weatherData.append(currentDiv)
                 weatherContainer.append(weatherData)
-                weatherData.attr('style', 'position:fixed;')
+               
                 
                // 5 day forecast loop
                  for (i=1; i < 6; i++) {
