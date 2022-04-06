@@ -51,3 +51,6 @@ li {
 img {
     min-width: 6rem;
 }
+.custom-modal {
+    display: none;
+}
