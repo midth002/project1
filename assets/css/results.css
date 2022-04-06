@@ -20,13 +20,6 @@ h4 {
     font-weight: bold;
     margin-bottom: 2rem;
 }
-<<<<<<< HEAD
-.brewData {
-    background-color: rgb(128, 128, 128);
-}
-=======
-
->>>>>>> main
 .brewData {
     display: flex;
     background-color: rgb(128, 128, 128);
@@ -65,10 +58,6 @@ li {
 img {
     min-width: 6rem;
 }
-<<<<<<< HEAD
 .custom-modal {
     display: none;
 }
-=======
-
->>>>>>> main
