@@ -5,7 +5,7 @@ var weatherData = $(".weatherData")
 var weatherContainer = $(".weatherContainer")
 
 var apiKey = "385e58697effddc1169cee4d7d6e5489"
-var perPage = "3"
+var perPage = "10"
 
 function init() {
     var searchParamArr = document.location.search.split('?q=')
@@ -41,16 +41,16 @@ function createBrewCard(data) {
         var li5 = $('<li>'); 
         var brewLink = $('<a>');
         brewLink.attr("href" , data[i].website_url)
-        brewLink.text("Website");
+        brewLink.text("Visit Website");
 
         brewName.text(data[i].name);
         li1.text("Brewery Type: " + data[i].brewery_type);
         li2.text("Street Address: " + data[i].street);
-        li3.text(data[i].city + ",");
-        li4.text(data[i].state);
+        li3.text(data[i].city + " " + data[i].state);
+        
         
         brewName.attr("style", "font-size: 2rem", "font-weight: bolder");
-        brewDiv.attr("style", "border: 3px dashed ; margin: 10px; width: 100%; padding-left: 10px; padding-right: 10px; padding-top: 10px; padding-bottom: 10px");
+        brewDiv.attr("style", "border: 5px dotted gold; margin: 10px; width: 100%; padding: 10px;");
         //ul.children().attr("style", "position: center")
 
         li5.append(brewLink);
