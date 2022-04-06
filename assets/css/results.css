@@ -1,5 +1,8 @@
 body {
     background-image: url("https://mcdn.wallpapersafari.com/medium/91/65/gI2wco.jpg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
     min-height: 100vh;
     text-transform: capitalize;
 }
@@ -20,7 +23,6 @@ h4 {
     font-weight: bold;
     margin-bottom: 2rem;
 }
-
 .brewData {
     display: flex;
     background-color: rgb(128, 128, 128);
@@ -30,26 +32,21 @@ h4 {
     background-color: black;
     padding: 20px;
     margin: 10px;
-    
 }
-
 .brewData > * {
     justify-content: center;
 }
-
 .brewData h3 {
     /* background-color: gray; */
     padding: 5px;
     font-size: 30px;
     width: 100%;
-
 }
 .brewData ul {
     background-color: white;
     padding: 10px;
     font-size: 20px;
     width: 100%;
-
 }
 li {
     /* display: inline; */
@@ -64,4 +61,6 @@ img {
     background-position: center;
     background-size: cover;
 }
-
+.custom-modal {
+    display: none;
+}
