@@ -38,7 +38,7 @@ h4 {
 }
 
 .brewData h3 {
-    background-color: gray;
+    /* background-color: gray; */
     padding: 5px;
     font-size: 30px;
     width: 100%;
@@ -61,5 +61,7 @@ li {
 }
 img {
     min-width: 6rem;
+    background-position: center;
+    background-size: cover;
 }
 
