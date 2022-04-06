@@ -49,7 +49,7 @@ function createBrewCard(data) {
         li4.text(data[i].state);
         
         brewName.attr("style", "font-size: 2rem", "font-weight: bolder");
-        brewDiv.attr("style", "border: 3px dashed ; margin: 2px; width: 35%; padding-left: 10px; padding-right: 10px; padding-bottom: 10px;");
+        brewDiv.attr("style", "border: 3px dashed ; margin: 10px; width: 100%; padding-left: 10px; padding-right: 10px; padding-top: 10px; padding-bottom: 10px");
         //ul.children().attr("style", "position: center")
 
         li5.append(brewLink);
@@ -98,11 +98,11 @@ function getWeatherByCity(name) {
 
                      // Add text to weather elements
                       weatherTitle.text("Currently in: " + name + "  ")
-                      tempLi.text("Temp: " + data.current.temp.toFixed() + "°F")
-                      windLi.text("Wind: " + data.current.wind_speed.toFixed() + " MPH")
-                      humLi.text("Humidity: " + data.current.humidity + "%")
-                      uvLi.text("UV Index: " + data.current.uvi)
-                      sunsetLi.text("Sunset: " + convertUnixTime(sunset))
+                      tempLi.text("⁌Temperature: " + data.current.temp.toFixed() + "°F")
+                      windLi.text("⁌Wind Speed: " + data.current.wind_speed.toFixed() + " MPH")
+                      humLi.text("⁌Humidity: " + data.current.humidity + "%")
+                      uvLi.text("⁌UV Index: " + data.current.uvi)
+                      sunsetLi.text("⁌Sunset: " + convertUnixTime(sunset))
                       currentWeatherIcon.html("<img src='https://openweathermap.org/img/w/" + data.current.weather[0].icon + ".png' alt='Icon depicting current weather.'>");
                       
 
@@ -159,4 +159,3 @@ searchButton.on("click", function(e) {
 })
 
 init();
-

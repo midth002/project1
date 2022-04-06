@@ -3,6 +3,7 @@
 } */
 * {
     background-color: black;
+    text-transform: capitalize;
 }
 
 .hero-body {
