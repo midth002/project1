@@ -20,9 +20,24 @@
                 <div class="field">
                     <label class="label"></label>
                     <div class="control columns is-flex">
-                      <input class="input column is-3" type="text" placeholder="Search City">
-                      <button class="button is-medium is-primary column is-2">Search</button>
-                      <button class="button is-medium is-primary column is-2">Search By Location</button>
+                      <input class="input column is-4" type="" placeholder="Search Breweries">
+                      <button class="column is-2 button button-search-city is-medium is-primary">Search</button>
+                      <button class="column is-2 button button-location is-medium is-primary" id="location-button">Search By Location</button>
+                      <div class="select">
+                        <select id="brewTypeOption">
+                          <option value="" disabled selected>Filter by Type of Brewery</option>
+                          <option value="micro">Micro</option>
+                          <option value="nano">Nano</option>
+                          <option value="regional">Regional</option>
+                          <option value="brewpub">Brewpub</option>
+                          <option value="large">Large</option>
+                          <option value="bar">Bar</option>
+                          <option value="planning">Planning</option>
+                          <option value="contract">Contract</option>
+                          <option value="all">All</option>
+                        </select>
+                      </div>
+
                       <div class="brewData has-text-left"></div>
                     </div>
                   </div>
