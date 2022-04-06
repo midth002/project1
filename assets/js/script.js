@@ -125,6 +125,7 @@ function createBrewCard(data) {
     for (i=0; i < data.length; i++) {
                 
         var brewDiv = $('<div>').addClass("brewCard");
+        var headingDiv =$('<div>');
         var brewName = $("<h3>");
         var favoriteLabel = $("<label class='checkbox'>")
         var favoriteInput = $("<input type='checkbox' class='favorite'>")
@@ -147,13 +148,15 @@ function createBrewCard(data) {
         
         
         brewName.attr("style", "font-size: 2rem", "font-weight: bolder");
+        headingDiv.addClass('has-background-grey')
         brewDiv.attr("style", "border: 5px dotted gold; margin: 10px; width: 100%; padding: 10px;");
         //ul.children().attr("style", "position: center")
 
         favoriteLabel.append(favoriteInput);
         li5.append(brewLink);
         ul.append(li1, li2, li3, li5) ;
-        brewDiv.append(brewName, ul, favoriteLabel);
+        headingDiv.append(brewName, favoriteLabel)
+        brewDiv.append(brewDiv, ul);
         brewData.append(brewDiv);
 
         
