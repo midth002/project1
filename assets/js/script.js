@@ -8,7 +8,7 @@ var locationButton = $("#location-button")
 var checkboxes = $('input[type=checkbox')
 
 var apiKey = "385e58697effddc1169cee4d7d6e5489"
-var perPage = "5"
+var perPage = "50"
 
 var favoriteArray = []
 var storedFavorites
@@ -120,6 +120,7 @@ function createBrewCard(data) {
     for (i=0; i < data.length; i++) {
                 
         var brewDiv = $('<div>').addClass("brewCard");
+        var headingDiv = $('<div>')
         var brewName = $("<h3>");
         var favoriteLabel = $("<label class='checkbox'>")
         var favoriteInput = $("<input type='checkbox' class='favorite'>")
@@ -142,13 +143,15 @@ function createBrewCard(data) {
         
         
         brewName.attr("style", "font-size: 2rem", "font-weight: bolder");
+        headingDiv.addClass('has-background-grey');
         brewDiv.attr("style", "border: 5px dotted gold; margin: 10px; width: 100%; padding: 10px;");
         //ul.children().attr("style", "position: center")
 
         favoriteLabel.append(favoriteInput);
         li5.append(brewLink);
-        ul.append(li1, li2, li3, li5) ;
-        brewDiv.append(brewName, ul, favoriteLabel);
+        ul.append(li1, li2, li3, li5);
+        headingDiv.append(brewName, favoriteLabel)
+        brewDiv.append(headingDiv, ul,);
         brewData.append(brewDiv);
 
         
@@ -234,6 +237,7 @@ function weatherOneCall(lat, lon, name) {
                 currentDiv.append(weatherTitle, currentUl)
                 weatherData.append(currentDiv)
                 weatherContainer.append(weatherData)
+                weatherData.attr('style', 'position:fixed;')
                 
                // 5 day forecast loop
                  for (i=1; i < 6; i++) {
