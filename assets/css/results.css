@@ -8,6 +8,7 @@ body {
 }
 #entireBox {
     border: 5px solid gold;
+    
 }
 h1 {
     font-size: 3rem;
@@ -37,7 +38,7 @@ h4 {
     justify-content: center;
 }
 .brewData h3 {
-    background-color: gray;
+    /* background-color: gray; */
     padding: 5px;
     font-size: 30px;
     width: 100%;
