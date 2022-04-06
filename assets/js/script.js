@@ -7,7 +7,6 @@ var locationButton = $("#location-button")
 
 var checkboxes = $('input[type=checkbox')
 
-
 var apiKey = "385e58697effddc1169cee4d7d6e5489"
 var perPage = "5"
 
@@ -44,17 +43,12 @@ function removeParam() {
     location.assign(queryString);
 }
 
-
 function initForCity() {
     var searchParamArr = document.location.search.split('?q=')
     var initialSearch = searchParamArr[1];
     getBreweryApi(initialSearch);
     getWeatherByCity(initialSearch)
 }
-
-
-
-
 
 function getBreweryApi(city) {
 
@@ -83,9 +77,7 @@ function filterApi(city, type) {
         })
     
 }
-
-
-   
+ 
 function getUserLocation() {
     if ("geolocation" in navigator){ //check geolocation available 
         //try to get user current location using getCurrentPosition() method
@@ -94,14 +86,12 @@ function getUserLocation() {
             console.log("Found your location \nLat : "+position.coords.latitude+" \nLang :"+ position.coords.longitude);
             if (brewType === "" || brewType === "all") {
                 breweryApiByDistance(position.coords.latitude, position.coords.longitude)
+                weatherOneCall(position.coords.latitude, position.coords.longitude, "Your Location")
             } else {
                 filterDistApi(position.coords.latitude, position.coords.longitude, brewType)
             }
                 
             });
-
-
-
     }else{
         console.log("Browser doesn't support geolocation!");
     }
@@ -131,8 +121,6 @@ function filterDistApi(lat, lon, type) {
     })
  }
 
-
-
 function createBrewCard(data) {
     for (i=0; i < data.length; i++) {
                 
@@ -145,18 +133,18 @@ function createBrewCard(data) {
         var li1 = $('<li>');
         var li2 = $('<li>');
         var li3 = $('<li class="brew-city">');
-        var li4 = $('<li>');
+        
         var li5 = $('<li>'); 
         var brewLink = $('<a>');
         brewLink.attr("href" , data[i].website_url)
-        brewLink.text("Website");
+        brewLink.text("Visit Website");
 
         brewName.text(data[i].name);
         favoriteLabel.text("Favorites ")
         li1.text("Brewery Type: " + data[i].brewery_type);
         li2.text("Street Address: " + data[i].street);
-        li3.text(data[i].city);
-        li4.text(data[i].state);
+        li3.text(data[i].city + " " + data[i].state);
+       
         
         brewName.attr("style", "font-size: 2rem", "font-weight: bolder");
        
@@ -165,7 +153,7 @@ function createBrewCard(data) {
 
         favoriteLabel.append(favoriteInput);
         li5.append(brewLink);
-        ul.append(li1, li2, li3, li4, li5) ;
+        ul.append(li1, li2, li3, li5) ;
         brewDiv.append(brewName, ul, favoriteLabel);
         brewData.append(brewDiv);
 
@@ -204,7 +192,6 @@ function getWeatherByCity(name) {
         })
     }
 
-
     function weatherOneCall(lat, lon, name) { 
         var weatherUrl = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&appid=" + apiKey + "&units=imperial"
 
@@ -228,7 +215,7 @@ function getWeatherByCity(name) {
                  var sunsetLi = $("<li>")
 
                 // Add text to weather elements
-                 weatherTitle.text("Currently in: " + name + "  ")
+                 weatherTitle.text("Currently in " + name + "  ")
                  tempLi.text("Temp: " + data.current.temp.toFixed() + "°F")
                  windLi.text("Wind: " + data.current.wind_speed.toFixed() + " MPH")
                  humLi.text("Humidity: " + data.current.humidity + "%")
@@ -253,12 +240,10 @@ function getWeatherByCity(name) {
                      var unix = data.daily[i].dt
                      var forecastDate = dateFormatter(unix);
                      var day = moment(forecastDate, "M/D/YYYY").format("ddd")
-                     console.log(day)
-
+                    console.log(day)
                 } 
             })
     }
-    
 
 function convertUnixTime(unixTime) {
     var time = new Date(unixTime)
@@ -277,11 +262,13 @@ function removeCard() {
     $(".weatherCard").remove();
 }
 
-
-
-
 searchButton.on("click", function(e) {
     e.preventDefault();
+    var searchValue = searchCity.val().trim()
+    if(!searchValue) {
+        alert('You need to enter a city or search by location'); 
+        return
+    } else {
     removeCard();
     getWeatherByCity(searchCity.val().trim());
     var brewType = $('#brewTypeOption').children("option:selected").val()
@@ -289,13 +276,14 @@ searchButton.on("click", function(e) {
         getBreweryApi(searchCity.val().trim());
     } else {
         filterApi(searchCity.val().trim(), brewType)
-    }
+    } }
 })
 
 locationButton.on("click" , function(e) { 
     e.preventDefault();
     removeCard();
     getUserLocation();
+    
 })
 
 function setLocalStorage(name, city) {
@@ -306,8 +294,6 @@ function setLocalStorage(name, city) {
 
     localStorage.setItem("favorites", JSON.stringify(favoriteArray))
 }
-
-
 
 function getLocalStorage() {
     storedFavorites = JSON.parse(localStorage.getItem("favorites"));
@@ -321,6 +307,5 @@ function removeFromLocalStorage(storedName) {
         }
     }
 }
-
 
 init();
