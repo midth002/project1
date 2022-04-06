@@ -50,7 +50,7 @@ function createBrewCard(data) {
         li4.text(data[i].state);
         
         brewName.attr("style", "font-size: 2rem", "font-weight: bolder");
-        brewDiv.attr("style", "border: 3px dashed ; margin: 2px; width: 35%; padding-left: 10px; padding-right: 10px; padding-bottom: 10px;");
+        brewDiv.attr("style", "border: 3px dashed ; margin: 10px; width: 100%; padding-left: 10px; padding-right: 10px; padding-top: 10px; padding-bottom: 10px");
         //ul.children().attr("style", "position: center")
 
         li5.append(brewLink);
