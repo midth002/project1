@@ -20,14 +20,11 @@ h4 {
     font-weight: bold;
     margin-bottom: 2rem;
 }
-.brewData {
-    background-color: rgb(128, 128, 128);
-}
-.control {
-    display: block;
-}
 
 .brewData {
+    display: flex;
+    background-color: rgb(128, 128, 128);
+    margin-right: 50px;
     flex-direction: column;
     width: 100%;
     background-color: black;
@@ -35,6 +32,11 @@ h4 {
     margin: 10px;
     
 }
+
+.brewData > * {
+    justify-content: center;
+}
+
 .brewData h3 {
     background-color: gray;
     padding: 5px;
@@ -43,20 +45,21 @@ h4 {
 
 }
 .brewData ul {
-    background-color: red;
+    background-color: white;
     padding: 10px;
     font-size: 20px;
     width: 100%;
 
 }
 li {
- font-size: 1.5rem;
- text-align: center;
- line-height: 3rem;
- font-family: 'Oufit';
+    /* display: inline; */
+    font-size: 1.5rem;
+    text-align: center;
+    line-height: 3rem;
+    font-family: 'Oufit';
+ 
 }
 img {
     min-width: 6rem;
 }
-
 
