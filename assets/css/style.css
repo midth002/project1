@@ -18,12 +18,11 @@
     position: relative;
     top: -250px;
     justify-content: center;
-    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-family: Outfit;
     font-weight: bolder;
     font-size: 3rem;
     color: white;
     background-color: black;
-
 }
 
 .input {
