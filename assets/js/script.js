@@ -17,13 +17,8 @@ var favoriteLabel = $("<label class='checkbox'>")
 var favoriteInput = $("<input type='checkbox' class='favorite'>")
 
 function init() {
-    var param = document.location.search
-
     removeCard(); 
-    console.log(param)
-    console.log(typeof param)
-    
-    initByLocation();
+    // initByLocation();
     
 }
 
@@ -119,7 +114,7 @@ function filterDistApi(lat, lon, type) {
     .then(function (data) { 
         createBrewCard(data)
     })
- }
+}
 
 function createBrewCard(data) {
     for (i=0; i < data.length; i++) {
@@ -159,6 +154,12 @@ function createBrewCard(data) {
 
         
     }
+
+    checkFavorite();
+ 
+}
+
+function checkFavorite() {
     $('input.favorite').on('change', function(){
         var thisBrewCard = $(this).parents('.brewCard')
             var thisBrewName = thisBrewCard.children('h3').text()
@@ -170,7 +171,7 @@ function createBrewCard(data) {
             removeFromLocalStorage(thisBrewName)
             
         }
-    });  
+    }); 
 }
 
 function getWeatherByCity(name) {
@@ -190,9 +191,9 @@ function getWeatherByCity(name) {
              weatherOneCall(lat1, lon1, name)
 
         })
-    }
+}
 
-    function weatherOneCall(lat, lon, name) { 
+function weatherOneCall(lat, lon, name) { 
         var weatherUrl = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&appid=" + apiKey + "&units=imperial"
 
         fetch(weatherUrl) 
@@ -243,7 +244,7 @@ function getWeatherByCity(name) {
                     console.log(day)
                 } 
             })
-    }
+}
 
 function convertUnixTime(unixTime) {
     var time = new Date(unixTime)
@@ -267,7 +268,7 @@ searchButton.on("click", function(e) {
     var searchValue = searchCity.val().trim()
     if(!searchValue) {
         alert('You need to enter a city or search by location'); 
-        return
+        return;
     } else {
     removeCard();
     getWeatherByCity(searchCity.val().trim());
@@ -297,6 +298,7 @@ function setLocalStorage(name, city) {
 
 function getLocalStorage() {
     storedFavorites = JSON.parse(localStorage.getItem("favorites"));
+    console.log(storedFavorites);
 }
 
 function removeFromLocalStorage(storedName) {
