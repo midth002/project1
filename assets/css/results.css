@@ -22,13 +22,14 @@ h4 {
 }
 .brewData {
     background-color: rgb(128, 128, 128);
+}
 .control {
     display: block;
 }
 
 .brewData {
     flex-direction: column;
-    /* width: 100%; */
+    width: 100%;
     background-color: black;
     padding: 20px;
     margin: 10px;

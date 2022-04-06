@@ -21,7 +21,23 @@
           <label class="label"></label>
           <div class="control">
             <input class="input" type="" placeholder="Search Breweries">
-            <button class="button is-medium is-primary">Search</button>
+            <button class="button is-medium is-primary" id="city-button">Search By City</button>
+            <button class="button is-medium is-primary" id="location-button">Search By Location</button>
+
+            <div class="select">
+                <select id="brewTypeOption">
+                  <option value="" disabled selected>Filter by Type of Brewery</option>
+                  <option value="micro">Micro</option>
+                  <option value="nano">Nano</option>
+                  <option value="regional">Regional</option>
+                  <option value="brewpub">Brewpub</option>
+                  <option value="large">Large</option>
+                  <option value="bar">Bar</option>
+                  <option value="planning">Planning</option>
+                  <option value="contract">Contract</option>
+                  <option value="all">All</option>
+                </select>
+              </div>
             <div class="brewData has-text-left"></div>
           </div>
         </div>
