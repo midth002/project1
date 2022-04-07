@@ -3,7 +3,7 @@ body {
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-    /* min-height: 100vh; */
+    min-height: 100vh;
     text-transform: capitalize;
 }
 #entireBox {
@@ -59,9 +59,7 @@ li {
     font-family: 'Oufit';
  
 }
-img {
-    /* min-width: 6rem; */
-}
+
 .custom-modal {
     display: none;
 }
@@ -71,4 +69,10 @@ img {
     position: sticky;
     top: 50px;
     align-self: flex-start;
+}
+
+.forecastData {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

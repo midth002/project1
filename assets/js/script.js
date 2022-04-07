@@ -23,7 +23,7 @@ function init() {
     
     checkParam();
 }
-
+ 
 function initByLocation() {
     var param = document.location.search.split('=')
     var query = param[1].split('&lon')
@@ -257,7 +257,7 @@ function weatherOneCall(lat, lon, name) {
                  sunsetLi.text("Sunset: " + convertUnixTime(sunset))
                  currentWeatherIcon.html("<img src='https://openweathermap.org/img/w/" + data.current.weather[0].icon + ".png' alt='Icon depicting current weather.'>");
                  
-
+                currentWeatherIcon.attr("style", "margin-top: 12px;")
                  currentDiv.attr("style", "background-color: white;")
                  iconSpan.attr("style", "margin-left: 5px;")
 
