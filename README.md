@@ -21,3 +21,5 @@
 ### The local storage component our group has intergrated into our platform and design is to provide a "Favorites" checkbox for users to save their favorite breweries! In saving these selections, users can access the stored data to go back and look at some enjoyable places they have been to. This checkbox function is a great way to keep track of places visited, and what is still on the list to explore!
 
 [Click to check out breweries near you!](https://midth002.github.io/project1/)
+
+![Welcome Page](./assets/images/Screen%20Shot%202022-04-07%20at%209.47.24%20AM.png "Welcome Page")

@@ -1,23 +1,30 @@
 body {
-    background-image: url("https://mcdn.wallpapersafari.com/medium/91/65/gI2wco.jpg");
-    background-position: center;
+    background-image: url("https://i.pinimg.com/564x/9c/a8/8b/9ca88b610259718bc6107c32a9011385.jpg");
+    /* background-position: center;
     background-repeat: no-repeat;
-    background-size: cover;
-    min-height: 100vh;
+    background-size: cover; */
+    /* min-height: 100vh; */
     text-transform: capitalize;
 }
 #entireBox {
-    border: 5px solid gold;
+    border: brown 15px solid;
     position: sticky;
-    top: 50px;
+    top: 20px;
     align-self: flex-start;
 }
 h1 {
     font-size: 3rem;
     font-weight: bolder;
     text-align: center;
-    border: 15px dotted gold;
+    border: 15px dotted brown;
     font-family: 'Monoton';
+}
+h2 {
+    font-size: 2rem;
+    font-family:  Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 2rem;
 }
 h4 {
     font-size: 2rem;
@@ -59,17 +66,20 @@ li {
     font-family: 'Oufit';
  
 }
-img {
-    /* min-width: 6rem; */
-}
+
 .custom-modal {
     display: none;
 }
 
 #entireBox {
-    border: 5px solid gold;
+    border: brown 15px solid;
     position: sticky;
     top: 50px;
     align-self: flex-start;
 }
 
+.forecastData {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

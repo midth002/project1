@@ -11,7 +11,7 @@ var checkboxes = $('input[type=checkbox')
 var apiKey = "385e58697effddc1169cee4d7d6e5489"
 var perPage = "50"
 
-var favoriteArray = []
+var favoriteArray;
 var storedFavorites
 var duplicateFavorite
 
@@ -32,7 +32,7 @@ function init() {
             return;
         }
 }
-
+ 
 function initByLocation() {
     var param = document.location.search.split('=')
     var query = param[1].split('&lon')
@@ -152,7 +152,7 @@ function getUserLocation() {
             }
                 
             });
-    }else{
+    }else {
         console.log("Browser doesn't support geolocation!");
     }
 }
@@ -298,7 +298,7 @@ function weatherOneCall(lat, lon, name) {
                  sunsetLi.text("Sunset: " + convertUnixTime(sunset))
                  currentWeatherIcon.html("<img src='https://openweathermap.org/img/w/" + data.current.weather[0].icon + ".png' alt='Icon depicting current weather.'>");
                  
-
+                currentWeatherIcon.attr("style", "margin-top: 12px;")
                  currentDiv.attr("style", "background-color: white;")
                  iconSpan.attr("style", "margin-left: 5px;")
 
@@ -349,7 +349,7 @@ function displayForecast(data) {
         forecastData.append(forecastCard);
 
     }
-    
+    weatherContainer.attr("style", "display:flex; justify-content: center")
    
     
 }
@@ -398,7 +398,7 @@ locationButton.on("click" , function(e) {
 
 // New objects
 function setLocalStorage(brewName, brewStreet, brewCity, brewUrl) {
-    console.log(favoriteArray)
+   // console.log(favoriteArray)
     favoriteArray.push({
         name: brewName,
         street: brewStreet,
@@ -411,7 +411,7 @@ function setLocalStorage(brewName, brewStreet, brewCity, brewUrl) {
 
 function getLocalStorage() {
     storedFavorites = JSON.parse(localStorage.getItem("favorites")); 
-    favoriteArray = storedFavorites;
+    favoriteArray = storedFavorites || [];
 }
 
 

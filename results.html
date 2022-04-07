@@ -14,8 +14,8 @@
     <link rel="stylesheet" href="./assets/css/results.css">
 </head>
 <body>
-   <div class="columns is-flex">
-    <div class="column has-background-grey">
+   <div class="is-flex">
+    <div class="has-background-grey">
       <!-- <form class="box" id="brewContainer"> -->
       <div class="has-background-grey">
         <form class="box" id="brewContainer">
@@ -23,9 +23,10 @@
             <label class="label"></label>
             <div class="control">
               <input class="input" type="text" placeholder="Search Breweries">
-              <button class="button is-medium is-primary" id="city-button">Search</button>
-              <button class="column is-2 button button-location is-medium is-primary mr-2 my-3" id="location-button">Near Me</button>
-              <div class="select">
+              <span class="columns">
+              <button class="column is-warning is-2 pr-1 pl-1 pb-1 pt-1 button is-rounded ml-4 mt-4 is-medium is-primary has-text-weight-bold" id="city-button">Search</button>
+              <button class="column is-warning is-2 pr-1 pl-1 pb-1 pt-1 button is-rounded mt-4 ml-2 button-location is-medium is-primary has-text-centered has-text-weight-bold" id="location-button">Near Me</button>
+              <div class="select column is-5 mt-2">
                 <select id="brewTypeOption">
                   <option value="" disabled selected>Filter by Type of Brewery</option>
                   <option value="micro">Micro</option>
@@ -38,10 +39,13 @@
                   <option value="contract">Contract</option>
                   <option value="all">All</option>
                 </select>
-                <button class="js-modal-trigger button is-primary" data-target="modal-custom" id="favorite-btn">
-                    Favorites
-                  </button>
+                
+                
               </div>
+              <button class="column is-warning is-2 pl-1 pr-1 pt-1 pb-1 mt-4 is-rounded s-modal-trigger button is-primary is-medium has-text-weight-bold" data-target="modal-custom" id="favorite-btn">
+                Favorites
+              </button>
+            </span>
               <div class="brewData has-text-centered">
                   <h3 id="brew-data-number-results"></h3>
               </div>
@@ -58,10 +62,10 @@
       <section id="weatherContainer">
           <div class="weatherData"></div>
           <div class="forecastData"></div>
+          </div>
       </section>
     </div>
-   
-</div>  
+  </div>  
     </div>  
       <section>
        
