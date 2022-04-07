@@ -11,8 +11,9 @@ var checkboxes = $('input[type=checkbox')
 var apiKey = "385e58697effddc1169cee4d7d6e5489"
 var perPage = "50"
 
-var favoriteArray = []
+var favoriteArray;
 var storedFavorites
+var duplicateFavorite
 
 var favoriteLabel = $("<label class='checkbox'>")
 var favoriteInput = $("<input type='checkbox' class='favorite'>")
@@ -20,8 +21,16 @@ var favoriteInput = $("<input type='checkbox' class='favorite'>")
 function init() {
     getLocalStorage();
     removeCard(); 
+    var searchParam = document.location.search
     
-    checkParam();
+    queryArray = searchParam.split('=')
+        if (queryArray.includes('?q')) {
+            checkCityParam();
+        } else  if (queryArray.includes('?lat')){
+            checkLocationParam();
+        } else {
+            return;
+        }
 }
  
 function initByLocation() {
@@ -38,19 +47,50 @@ function initByLocation() {
 function initForCity() {
     var searchParamArr = document.location.search.split('?q=')
     var initialSearch = searchParamArr[1];
+   
     getBreweryApi(initialSearch);
     getWeatherByCity(initialSearch)
 }
 
-
-function checkParam() {
-    var queryArray = document.location.search.split('=')
-    if (queryArray.includes('?q')) {
-        initForCity();
-    } else {
-        initByLocation();
-    }
+function initByCityType() {
+    var searchParamArr = document.location.search.split('?q=')
+    var byTypeQuery = searchParamArr[1].split('&by_type=')
+    filterApi(byTypeQuery[0], byTypeQuery[1])
 }
+
+function checkCityParam() {
+    var queryArray = document.location.search.split('=')
+    var secondQuery = queryArray[1].split('&')
+    
+    if (queryArray[2] == "all") {
+        getBreweryApi(secondQuery[0])
+        getWeatherByCity(secondQuery[0]);
+    } else {
+        filterApi(secondQuery[0], queryArray[2])
+        getWeatherByCity(secondQuery[0]);
+    }
+    
+}
+
+function checkLocationParam() {
+    var queryArray = document.location.search.split('=')
+    console.log(queryArray)
+    
+    var latQuery = queryArray[1].split('&lon')
+    var lonQuery = queryArray[2].split('&by_type')
+
+    console.log(latQuery, lonQuery)
+
+    if (queryArray[3] == "all") {
+        breweryApiByDistance(latQuery[0], lonQuery[0])
+        weatherOneCall(latQuery[0], lonQuery[0], "Your Location")
+    } else {
+        filterDistApi(latQuery, lonQuery[0], queryArray[3])
+        weatherOneCall(latQuery[0], lonQuery[0], "Your Location")
+    }
+
+}
+  
 
 function removeParam() {
     var queryString = "./results.html?"
@@ -104,7 +144,6 @@ function getUserLocation() {
         //try to get user current location using getCurrentPosition() method
         navigator.geolocation.getCurrentPosition(function(position){ 
             var brewType = $('#brewTypeOption').children("option:selected").val()
-            console.log("Found your location \nLat : "+position.coords.latitude+" \nLang :"+ position.coords.longitude);
             if (brewType === "" || brewType === "all") {
                 breweryApiByDistance(position.coords.latitude, position.coords.longitude)
                 weatherOneCall(position.coords.latitude, position.coords.longitude, "Your Location")
@@ -113,7 +152,7 @@ function getUserLocation() {
             }
                 
             });
-    }else{
+    }else {
         console.log("Browser doesn't support geolocation!");
     }
 }
@@ -182,10 +221,10 @@ function createBrewCard(data) {
         brewData.append(brewDiv);
 
     }
-
     checkFavorite();
  
 }
+
 
 function checkFavorite() {
     $('input.favorite').on('change', function(){
@@ -197,14 +236,16 @@ function checkFavorite() {
             var thisStreet = thisUl.children('.brew-street').text()
             var thisUrlListItem = thisUl.children('.brew-list-link')
             var thisUrl = thisUrlListItem.children().attr('href')
+        
         if($(this).is(':checked')){
             setLocalStorage(thisBrewName, thisStreet, thisCityName, thisUrl)
         } else {
-            removeFromLocalStorage(thisBrewName)
-            
+            removeFromLocalStorage(thisBrewName)  
         }
     }); 
 }
+
+
 
 function getWeatherByCity(name) {
     
@@ -234,7 +275,7 @@ function weatherOneCall(lat, lon, name) {
            })
             .then(function (data) {
                 console.log(data)
-                   var sunset = data.current.sunset
+                var sunset = data.current.sunset
 
                  // Current weather element created
                  var currentDiv = $('<div>').addClass("weatherCard");
@@ -270,7 +311,7 @@ function weatherOneCall(lat, lon, name) {
                 weatherContainer.append(weatherData)
                
                 
-               // 5 day forecast loop
+               // 7 day forecast loop
                displayForecast(data)
             })
 }
@@ -312,7 +353,6 @@ function displayForecast(data) {
    
     
 }
-
 
 function convertUnixTime(unixTime) {
     var time = new Date(unixTime)
@@ -358,19 +398,20 @@ locationButton.on("click" , function(e) {
 
 // New objects
 function setLocalStorage(brewName, brewStreet, brewCity, brewUrl) {
+   // console.log(favoriteArray)
     favoriteArray.push({
         name: brewName,
         street: brewStreet,
         city: brewCity,
         Url: brewUrl
     })
-
     localStorage.setItem("favorites", JSON.stringify(favoriteArray))
+    
 }
 
 function getLocalStorage() {
     storedFavorites = JSON.parse(localStorage.getItem("favorites")); 
-    favoriteArray = storedFavorites;
+    favoriteArray = storedFavorites || [];
 }
 
 
@@ -392,8 +433,10 @@ function renderFavorites() {
     storedFavorites = JSON.parse(localStorage.getItem("favorites"));
     for (i=0; i<storedFavorites.length; i++) {
         displayFavorites(storedFavorites[i].name, storedFavorites[i].street, storedFavorites[i].city, 
-            storedFavorites[i].url)
+            storedFavorites[i].Url)
     }
+
+    console.log(storedFavorites)
 }
 
 // New function
@@ -402,17 +445,15 @@ function displayFavorites(name, street, city, url) {
     var favUl = $('<ul>')
     var favName = $('<p>')
     var favUrl = $('<a>')
-    var favUrlIcon = $('<span class="material-icons-outlined">')
     var favLocation = $('<p>')
 
-    favName.text(name)
-    favLocation.text(street + ", " + city)
     favUrl.attr("href", url)
-    favUrlIcon.text("  URL")
-
+    favUrl.text(name)
+    favName.append(favUrl)
+    favLocation.text(street + ", " + city)
+    
     favName.attr("style", "font-weight:bold;")
 
-    favUrl.append(favUrlIcon)
     favName.append(favUrl)
     favUl.append(favName, favLocation)
     favDiv.append(favUl)
@@ -424,6 +465,8 @@ function displayFavorites(name, street, city, url) {
 function removeFavorites() {
     $('#favorite-box').children().remove()
 }
+
+
 
 // New Listener
 $("#favorite-btn").click(function(event) {
