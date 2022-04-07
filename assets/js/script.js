@@ -257,9 +257,10 @@ function weatherOneCall(lat, lon, name) {
                  sunsetLi.text("Sunset: " + convertUnixTime(sunset))
                  currentWeatherIcon.html("<img src='https://openweathermap.org/img/w/" + data.current.weather[0].icon + ".png' alt='Icon depicting current weather.'>");
                  
-                currentWeatherIcon.attr("style", "margin-top: 12px;")
+                 weatherTitle.attr("style", "display: flex; justify-content: center; margin-top: 30px; margin-bottom: 0px")
                  currentDiv.attr("style", "background-color: white;")
-                 iconSpan.attr("style", "margin-left: 5px;")
+                 iconSpan.attr("style", "padding-left: 10px")
+                
 
                 // Append elements to the weathercontainer
                 iconSpan.append(currentWeatherIcon);
