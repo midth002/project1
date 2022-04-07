@@ -11,7 +11,7 @@ function searchFormSubmitCity() {
         console.error("No city value in. You need to put in a value!");
         return
     } 
-    var queryString = "./results.html?q=" + searchCityVal 
+    var queryString = "./results.html?q=" + searchCityVal + "&by_type=all"
     location.assign(queryString)
 }
 
@@ -27,7 +27,7 @@ function searchCityAndType(type) {
 }
 
 function searchByLocation(lat, lon) {
-    var queryString = "./results.html?lat=" + lat + "&lon=" + lon
+    var queryString = "./results.html?lat=" + lat + "&lon=" + lon + "&by_type=all"
     location.assign(queryString);
 }
 
