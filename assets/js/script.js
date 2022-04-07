@@ -19,24 +19,16 @@ var favoriteLabel = $("<label class='checkbox'>")
 var favoriteInput = $("<input type='checkbox' class='favorite'>")
 
 function init() {
+    getLocalStorage();
+    removeCard(); 
     var searchParam = document.location.search
     
     queryArray = searchParam.split('=')
-
         if (queryArray.includes('?q')) {
             checkCityParam();
         } else {
             checkLocationParam();
-        }
-    
-
-  
-    getLocalStorage();
-    removeCard(); 
-
-    console.log(favoriteArray)
-    console.log(storedFavorites)
-   
+        } 
 }
 
 function initByLocation() {
@@ -227,7 +219,6 @@ function createBrewCard(data) {
         brewData.append(brewDiv);
 
     }
-
     checkFavorite();
  
 }
@@ -243,15 +234,15 @@ function checkFavorite() {
             var thisStreet = thisUl.children('.brew-street').text()
             var thisUrlListItem = thisUl.children('.brew-list-link')
             var thisUrl = thisUrlListItem.children().attr('href')
+        
         if($(this).is(':checked')){
-            duplicateFavorite = storedFavorites.includes(thisBrewName);
             setLocalStorage(thisBrewName, thisStreet, thisCityName, thisUrl)
         } else {
-            removeFromLocalStorage(thisBrewName)
-            
+            removeFromLocalStorage(thisBrewName)  
         }
     }); 
 }
+
 
 
 function getWeatherByCity(name) {
@@ -405,14 +396,15 @@ locationButton.on("click" , function(e) {
 
 // New objects
 function setLocalStorage(brewName, brewStreet, brewCity, brewUrl) {
+    console.log(favoriteArray)
     favoriteArray.push({
         name: brewName,
         street: brewStreet,
         city: brewCity,
         Url: brewUrl
     })
-
     localStorage.setItem("favorites", JSON.stringify(favoriteArray))
+    
 }
 
 function getLocalStorage() {
