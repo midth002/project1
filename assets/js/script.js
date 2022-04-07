@@ -3,12 +3,13 @@ var searchCity = $(".input")
 var searchButton = $("#city-button")
 var weatherData = $(".weatherData")
 var weatherContainer = $(".weatherContainer")
+var forecastData = $('.forecastData')
 var locationButton = $("#location-button")
 
 var checkboxes = $('input[type=checkbox')
 
 var apiKey = "385e58697effddc1169cee4d7d6e5489"
-var perPage = "3"
+var perPage = "50"
 
 var favoriteArray = []
 var storedFavorites
@@ -17,6 +18,8 @@ var favoriteLabel = $("<label class='checkbox'>")
 var favoriteInput = $("<input type='checkbox' class='favorite'>")
 
 function init() {
+    getLocalStorage()
+    console.log(favoriteArray)
     removeCard(); 
     // initByLocation();
     
@@ -53,9 +56,21 @@ function getBreweryApi(city) {
         })  
         .then(function (data) { 
             console.log(data)
+            checkNumOfResults(data.length)
             createBrewCard(data)
         })
     
+}
+
+// new Function
+function checkNumOfResults(results) {
+    if (results == 1) {
+        $('#brew-data-number-results').text(results + " Result")
+    } else if (results > 1) {
+        $('#brew-data-number-results').text(results + " Results")
+    } else {
+        $('#brew-data-number-results').text("No Results")
+    }
 }
 
 function filterApi(city, type) {
@@ -67,6 +82,7 @@ function filterApi(city, type) {
         })  
         .then(function (data) { 
             console.log(data)
+            checkNumOfResults(data.length)
             createBrewCard(data)
         })
     
@@ -99,6 +115,7 @@ function breweryApiByDistance(lat, lon) {
        return response.json();
    })  
    .then(function (data) { 
+       checkNumOfResults(data.length)
        createBrewCard(data)
    })
 }
@@ -111,6 +128,7 @@ function filterDistApi(lat, lon, type) {
         return response.json();
     })  
     .then(function (data) { 
+        checkNumOfResults(data.length)
         createBrewCard(data)
     })
 }
@@ -248,6 +266,7 @@ function weatherOneCall(lat, lon, name) {
 
 // New Function
 function displayForecast(data) {
+    removeOldForecast();
     for (i=1; i<8; i++) {
 
         var unix = data.daily[i].dt
@@ -275,7 +294,7 @@ function displayForecast(data) {
         tempEl.append(spanMinTemp)
         forecastHeading.append(forecastHeader, weatherIcon);
         forecastCard.append(forecastHeading, tempEl);
-        weatherData.append(forecastCard);
+        forecastData.append(forecastCard);
 
     }
     weatherContainer.attr("stlye", "display:flex; justify-content: center")
@@ -296,6 +315,7 @@ function dateFormatter(unixTime) {
     return dateString;
 }
 
+// New Function
 function removeCard() {
     $(".brewCard").remove();
     $(".weatherCard").remove();
@@ -325,6 +345,7 @@ locationButton.on("click" , function(e) {
     
 })
 
+// New objects
 function setLocalStorage(brewName, brewStreet, brewCity, brewUrl) {
     favoriteArray.push({
         name: brewName,
@@ -338,7 +359,9 @@ function setLocalStorage(brewName, brewStreet, brewCity, brewUrl) {
 
 function getLocalStorage() {
     storedFavorites = JSON.parse(localStorage.getItem("favorites")); 
+    favoriteArray = storedFavorites;
 }
+
 
 function removeFromLocalStorage(storedName) {
     for (i=0; i < favoriteArray.length; i++) {
@@ -349,6 +372,11 @@ function removeFromLocalStorage(storedName) {
     }
 }
 
+function removeOldForecast() {
+    forecastData.children().remove()
+}
+
+// New function
 function renderFavorites() {
     storedFavorites = JSON.parse(localStorage.getItem("favorites"));
     for (i=0; i<storedFavorites.length; i++) {
@@ -357,7 +385,7 @@ function renderFavorites() {
     }
 }
 
-
+// New function
 function displayFavorites(name, street, city, url) {
     var favDiv = $('<div>')
     var favUl = $('<ul>')
@@ -381,10 +409,12 @@ function displayFavorites(name, street, city, url) {
 
 }
 
+// New function
 function removeFavorites() {
     $('#favorite-box').children().remove()
 }
 
+// New Listener
 $("#favorite-btn").click(function(event) {
     event.preventDefault();
     $(".modal").addClass("is-active"); 
@@ -392,7 +422,7 @@ $("#favorite-btn").click(function(event) {
     renderFavorites()
   });
    
-   
+// New Listener
   $(".modal-close").click(function() {
      $(".modal").removeClass("is-active");
   });
