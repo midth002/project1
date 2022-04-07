@@ -13,22 +13,29 @@ var perPage = "50"
 
 var favoriteArray = []
 var storedFavorites
+var duplicateFavorite
 
 var favoriteLabel = $("<label class='checkbox'>")
 var favoriteInput = $("<input type='checkbox' class='favorite'>")
 
 function init() {
     var searchParam = document.location.search
+    
     queryArray = searchParam.split('=')
+
+        if (queryArray.includes('?q')) {
+            checkCityParam();
+        } else {
+            checkLocationParam();
+        }
     
 
-    if (queryArray.includes('?q')) {
-        checkCityParam();
-    } else {
-        checkLocationParam();
-    }
+  
     getLocalStorage();
     removeCard(); 
+
+    console.log(favoriteArray)
+    console.log(storedFavorites)
    
 }
 
@@ -225,6 +232,7 @@ function createBrewCard(data) {
  
 }
 
+
 function checkFavorite() {
     $('input.favorite').on('change', function(){
         var thisBrewHeading = $(this).parents('.brewHeading')
@@ -236,6 +244,7 @@ function checkFavorite() {
             var thisUrlListItem = thisUl.children('.brew-list-link')
             var thisUrl = thisUrlListItem.children().attr('href')
         if($(this).is(':checked')){
+            duplicateFavorite = storedFavorites.includes(thisBrewName);
             setLocalStorage(thisBrewName, thisStreet, thisCityName, thisUrl)
         } else {
             removeFromLocalStorage(thisBrewName)
@@ -243,6 +252,7 @@ function checkFavorite() {
         }
     }); 
 }
+
 
 function getWeatherByCity(name) {
     
@@ -399,7 +409,7 @@ function setLocalStorage(brewName, brewStreet, brewCity, brewUrl) {
         name: brewName,
         street: brewStreet,
         city: brewCity,
-        url: brewUrl
+        Url: brewUrl
     })
 
     localStorage.setItem("favorites", JSON.stringify(favoriteArray))
@@ -429,7 +439,7 @@ function renderFavorites() {
     storedFavorites = JSON.parse(localStorage.getItem("favorites"));
     for (i=0; i<storedFavorites.length; i++) {
         displayFavorites(storedFavorites[i].name, storedFavorites[i].street, storedFavorites[i].city, 
-            storedFavorites[i].url)
+            storedFavorites[i].Url)
     }
 
     console.log(storedFavorites)
@@ -441,17 +451,15 @@ function displayFavorites(name, street, city, url) {
     var favUl = $('<ul>')
     var favName = $('<p>')
     var favUrl = $('<a>')
-    var favUrlIcon = $('<span class="material-icons-outlined">')
     var favLocation = $('<p>')
 
-    favName.text(name)
-    favLocation.text(street + ", " + city)
     favUrl.attr("href", url)
-    favUrlIcon.text("  URL")
-
+    favUrl.text(name)
+    favName.append(favUrl)
+    favLocation.text(street + ", " + city)
+    
     favName.attr("style", "font-weight:bold;")
 
-    favUrl.append(favUrlIcon)
     favName.append(favUrl)
     favUl.append(favName, favLocation)
     favDiv.append(favUl)
@@ -463,6 +471,8 @@ function displayFavorites(name, street, city, url) {
 function removeFavorites() {
     $('#favorite-box').children().remove()
 }
+
+
 
 // New Listener
 $("#favorite-btn").click(function(event) {
