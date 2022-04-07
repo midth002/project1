@@ -18,11 +18,10 @@ var favoriteLabel = $("<label class='checkbox'>")
 var favoriteInput = $("<input type='checkbox' class='favorite'>")
 
 function init() {
-    getLocalStorage()
-    console.log(favoriteArray)
+    getLocalStorage();
     removeCard(); 
-    // initByLocation();
     
+    checkParam();
 }
 
 function initByLocation() {
@@ -32,12 +31,8 @@ function initByLocation() {
     var queryLat = query[0]
     var queryLon = param[2]
     breweryApiByDistance(queryLat, queryLon)
-    
-}
+    weatherOneCall(queryLat, queryLon, "Your Location")
 
-function removeParam() {
-    var queryString = "./results.html?"
-    location.assign(queryString);
 }
 
 function initForCity() {
@@ -46,6 +41,22 @@ function initForCity() {
     getBreweryApi(initialSearch);
     getWeatherByCity(initialSearch)
 }
+
+
+function checkParam() {
+    var queryArray = document.location.search.split('=')
+    if (queryArray.includes('?q')) {
+        initForCity();
+    } else {
+        initByLocation();
+    }
+}
+
+function removeParam() {
+    var queryString = "./results.html?"
+    location.assign(queryString);
+}
+
 
 function getBreweryApi(city) {
 
