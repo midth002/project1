@@ -5,6 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Beer Search Results</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Monoton&family=Outfit:wght@200&display=swap" rel="stylesheet">
@@ -37,7 +39,7 @@
                   <option value="all">All</option>
                 </select>
                 <button class="js-modal-trigger button is-primary" data-target="modal-custom" id="favorite-btn">
-                    Open JS example modal
+                    Favorites
                   </button>
               </div>
               <div class="brewData has-text-centered"></div>
@@ -64,9 +66,11 @@
       <div id="modal-custom" class="modal custom-modal">
         <div class="modal-background"></div>
         <div class="modal-content">
-          <div class="box">
-            <p>Modal JS example</p>
+          <div class="box" id="favorite-box">
+            <p>Your Favorites</p>
             <!-- Your content -->
+
+           
           </div>
         </div>
         <button class="modal-close is-large" aria-label="close"></button>
@@ -75,6 +79,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.2/moment.min.js"></script>
    
     <script src="./assets/js/script.js"></script>
-    <script src="./assets/js/favorites.js"></script>
+    
 </body>
 </html>

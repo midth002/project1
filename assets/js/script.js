@@ -30,7 +30,6 @@ function initByLocation() {
     var queryLon = param[2]
     breweryApiByDistance(queryLat, queryLon)
     
-    
 }
 
 function removeParam() {
@@ -120,17 +119,17 @@ function createBrewCard(data) {
     for (i=0; i < data.length; i++) {
                 
         var brewDiv = $('<div>').addClass("brewCard");
-        var headingDiv = $('<div>')
+        var headingDiv = $('<div>').addClass("brewHeading")
         var brewName = $("<h3>");
         var favoriteLabel = $("<label class='checkbox'>")
         var favoriteInput = $("<input type='checkbox' class='favorite'>")
        
         var ul = $('<ul>');
         var li1 = $('<li>');
-        var li2 = $('<li>');
+        var li2 = $('<li class="brew-street">');
         var li3 = $('<li class="brew-city">');
-        var li5 = $('<li>'); 
-        var brewLink = $('<a>');
+        var li5 = $('<li class="brew-list-link">'); 
+        var brewLink = $('<a class="brew-link">');
         brewLink.attr("href" , data[i].website_url)
         brewLink.text("Visit Website");
 
@@ -161,12 +160,16 @@ function createBrewCard(data) {
 
 function checkFavorite() {
     $('input.favorite').on('change', function(){
+        var thisBrewHeading = $(this).parents('.brewHeading')
         var thisBrewCard = $(this).parents('.brewCard')
-            var thisBrewName = thisBrewCard.children('h3').text()
+            var thisBrewName = thisBrewHeading.children('h3').text()
             var thisUl = thisBrewCard.children('ul')
             var thisCityName = thisUl.children('.brew-city').text()
+            var thisStreet = thisUl.children('.brew-street').text()
+            var thisUrlListItem = thisUl.children('.brew-list-link')
+            var thisUrl = thisUrlListItem.children().attr('href')
         if($(this).is(':checked')){
-            setLocalStorage(thisBrewName, thisCityName)
+            setLocalStorage(thisBrewName, thisStreet, thisCityName, thisUrl)
         } else {
             removeFromLocalStorage(thisBrewName)
             
@@ -322,18 +325,19 @@ locationButton.on("click" , function(e) {
     
 })
 
-function setLocalStorage(name, city) {
+function setLocalStorage(brewName, brewStreet, brewCity, brewUrl) {
     favoriteArray.push({
-        breweryName: name,
-        breweryCity: city
+        name: brewName,
+        street: brewStreet,
+        city: brewCity,
+        Url: brewUrl
     })
 
     localStorage.setItem("favorites", JSON.stringify(favoriteArray))
 }
 
 function getLocalStorage() {
-    storedFavorites = JSON.parse(localStorage.getItem("favorites"));
-    console.log(storedFavorites);
+    storedFavorites = JSON.parse(localStorage.getItem("favorites")); 
 }
 
 function removeFromLocalStorage(storedName) {
@@ -344,5 +348,53 @@ function removeFromLocalStorage(storedName) {
         }
     }
 }
+
+function renderFavorites() {
+    storedFavorites = JSON.parse(localStorage.getItem("favorites"));
+    for (i=0; i<storedFavorites.length; i++) {
+        displayFavorites(storedFavorites[i].name, storedFavorites[i].street, storedFavorites[i].city, 
+            storedFavorites[i].url)
+    }
+}
+
+
+function displayFavorites(name, street, city, url) {
+    var favDiv = $('<div>')
+    var favUl = $('<ul>')
+    var favName = $('<p>')
+    var favUrl = $('<a>')
+    var favUrlIcon = $('<span class="material-icons-outlined">')
+    var favLocation = $('<p>')
+
+    favName.text(name)
+    favLocation.text(street + ", " + city)
+    favUrl.attr("href", url)
+    favUrlIcon.text("  URL")
+
+    favName.attr("style", "font-weight:bold;")
+
+    favUrl.append(favUrlIcon)
+    favName.append(favUrl)
+    favUl.append(favName, favLocation)
+    favDiv.append(favUl)
+    $('#favorite-box').append(favDiv)
+
+}
+
+function removeFavorites() {
+    $('#favorite-box').children().remove()
+}
+
+$("#favorite-btn").click(function(event) {
+    event.preventDefault();
+    $(".modal").addClass("is-active"); 
+    removeFavorites()
+    renderFavorites()
+  });
+   
+   
+  $(".modal-close").click(function() {
+     $(".modal").removeClass("is-active");
+  });
 
 init();
