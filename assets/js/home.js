@@ -3,8 +3,6 @@ var searchCity = $(".input")
 var searchButton = $(".button-search-city")
 var locationButton = $(".button-location")
 
-
-
 function searchFormSubmitCity() {
     
     var searchCityVal = searchCity.val();
