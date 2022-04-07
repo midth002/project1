@@ -8,7 +8,9 @@ body {
 }
 #entireBox {
     border: 5px solid gold;
-    
+    position: sticky;
+    top: 50px;
+    align-self: flex-start;
 }
 h1 {
     font-size: 3rem;
