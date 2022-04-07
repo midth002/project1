@@ -23,3 +23,5 @@
 [Click to check out breweries near you!](https://midth002.github.io/project1/)
 
 ![Welcome Page](./assets/images/Screen%20Shot%202022-04-07%20at%209.47.24%20AM.png "Welcome Page")
+
+![Results Page](./assets/images/Screen%20Shot%202022-04-07%20at%201.42.52%20PM.png "Results Page")
