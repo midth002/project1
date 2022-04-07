@@ -358,7 +358,6 @@ locationButton.on("click" , function(e) {
 
 // New objects
 function setLocalStorage(brewName, brewStreet, brewCity, brewUrl) {
-   // console.log(favoriteArray)
     favoriteArray.push({
         name: brewName,
         street: brewStreet,
