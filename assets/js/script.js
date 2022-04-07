@@ -3,6 +3,7 @@ var searchCity = $(".input")
 var searchButton = $("#city-button")
 var weatherData = $(".weatherData")
 var weatherContainer = $(".weatherContainer")
+var forecastData = $('.forecastData')
 var locationButton = $("#location-button")
 
 var checkboxes = $('input[type=checkbox')
@@ -17,9 +18,10 @@ var favoriteLabel = $("<label class='checkbox'>")
 var favoriteInput = $("<input type='checkbox' class='favorite'>")
 
 function init() {
+    getLocalStorage();
     removeCard(); 
-    // initByLocation();
     
+    checkParam();
 }
 
 function initByLocation() {
@@ -29,13 +31,8 @@ function initByLocation() {
     var queryLat = query[0]
     var queryLon = param[2]
     breweryApiByDistance(queryLat, queryLon)
-    
-    
-}
+    weatherOneCall(queryLat, queryLon, "Your Location")
 
-function removeParam() {
-    var queryString = "./results.html?"
-    location.assign(queryString);
 }
 
 function initForCity() {
@@ -44,6 +41,22 @@ function initForCity() {
     getBreweryApi(initialSearch);
     getWeatherByCity(initialSearch)
 }
+
+
+function checkParam() {
+    var queryArray = document.location.search.split('=')
+    if (queryArray.includes('?q')) {
+        initForCity();
+    } else {
+        initByLocation();
+    }
+}
+
+function removeParam() {
+    var queryString = "./results.html?"
+    location.assign(queryString);
+}
+
 
 function getBreweryApi(city) {
 
@@ -54,9 +67,21 @@ function getBreweryApi(city) {
         })  
         .then(function (data) { 
             console.log(data)
+            checkNumOfResults(data.length)
             createBrewCard(data)
         })
     
+}
+
+// new Function
+function checkNumOfResults(results) {
+    if (results == 1) {
+        $('#brew-data-number-results').text(results + " Result")
+    } else if (results > 1) {
+        $('#brew-data-number-results').text(results + " Results")
+    } else {
+        $('#brew-data-number-results').text("No Results")
+    }
 }
 
 function filterApi(city, type) {
@@ -68,6 +93,7 @@ function filterApi(city, type) {
         })  
         .then(function (data) { 
             console.log(data)
+            checkNumOfResults(data.length)
             createBrewCard(data)
         })
     
@@ -100,6 +126,7 @@ function breweryApiByDistance(lat, lon) {
        return response.json();
    })  
    .then(function (data) { 
+       checkNumOfResults(data.length)
        createBrewCard(data)
    })
 }
@@ -112,6 +139,7 @@ function filterDistApi(lat, lon, type) {
         return response.json();
     })  
     .then(function (data) { 
+        checkNumOfResults(data.length)
         createBrewCard(data)
     })
 }
@@ -120,17 +148,17 @@ function createBrewCard(data) {
     for (i=0; i < data.length; i++) {
                 
         var brewDiv = $('<div>').addClass("brewCard");
-        var headingDiv = $('<div>')
+        var headingDiv = $('<div>').addClass("brewHeading")
         var brewName = $("<h3>");
         var favoriteLabel = $("<label class='checkbox'>")
         var favoriteInput = $("<input type='checkbox' class='favorite'>")
        
         var ul = $('<ul>');
         var li1 = $('<li>');
-        var li2 = $('<li>');
+        var li2 = $('<li class="brew-street">');
         var li3 = $('<li class="brew-city">');
-        var li5 = $('<li>'); 
-        var brewLink = $('<a>');
+        var li5 = $('<li class="brew-list-link">'); 
+        var brewLink = $('<a class="brew-link">');
         brewLink.attr("href" , data[i].website_url)
         brewLink.text("Visit Website");
 
@@ -161,12 +189,16 @@ function createBrewCard(data) {
 
 function checkFavorite() {
     $('input.favorite').on('change', function(){
+        var thisBrewHeading = $(this).parents('.brewHeading')
         var thisBrewCard = $(this).parents('.brewCard')
-            var thisBrewName = thisBrewCard.children('h3').text()
+            var thisBrewName = thisBrewHeading.children('h3').text()
             var thisUl = thisBrewCard.children('ul')
             var thisCityName = thisUl.children('.brew-city').text()
+            var thisStreet = thisUl.children('.brew-street').text()
+            var thisUrlListItem = thisUl.children('.brew-list-link')
+            var thisUrl = thisUrlListItem.children().attr('href')
         if($(this).is(':checked')){
-            setLocalStorage(thisBrewName, thisCityName)
+            setLocalStorage(thisBrewName, thisStreet, thisCityName, thisUrl)
         } else {
             removeFromLocalStorage(thisBrewName)
             
@@ -201,6 +233,7 @@ function weatherOneCall(lat, lon, name) {
                return response.json();
            })
             .then(function (data) {
+                console.log(data)
                    var sunset = data.current.sunset
 
                  // Current weather element created
@@ -238,14 +271,48 @@ function weatherOneCall(lat, lon, name) {
                
                 
                // 5 day forecast loop
-                 for (i=1; i < 6; i++) {
-                     var unix = data.daily[i].dt
-                     var forecastDate = dateFormatter(unix);
-                     var day = moment(forecastDate, "M/D/YYYY").format("ddd")
-                    console.log(day)
-                } 
+               displayForecast(data)
             })
 }
+
+// New Function
+function displayForecast(data) {
+    removeOldForecast();
+    for (i=1; i<8; i++) {
+
+        var unix = data.daily[i].dt
+        var forecastDate = dateFormatter(unix);
+        var day = moment(forecastDate, "M/D/YYYY").format("ddd")
+
+        var forecastCard = $('<div>')
+        var forecastHeading = $('<div>')
+        var forecastHeader = $('<h4>')
+        var weatherIcon = $('<span>')
+        weatherIcon.html("<img src='https://openweathermap.org/img/w/" + data.daily[i].weather[0].icon + ".png' alt='Icon depicting weather.'>"); 
+
+        var tempEl = $('<p>')
+        var spanMinTemp = $('<span>')
+        forecastHeader.text(day)
+        tempEl.text(data.daily[i].temp.max.toFixed() + "°  ")
+        spanMinTemp.text(data.daily[i].temp.min.toFixed() + "°")
+
+        forecastHeader.attr("style", "height:10%; line-height:0; margin-top: 15px; margin-right: 5px; font-size: 20px")
+        
+        forecastCard.attr("style", "display: inline-block; overflow: hidden; margin: 0 10px; justify-content:center width: 20%")
+        spanMinTemp.attr("style", "color:grey")
+        tempEl.attr("style", "font-weight:bold; font-size: 12px; text-align: center")
+
+        tempEl.append(spanMinTemp)
+        forecastHeading.append(forecastHeader, weatherIcon);
+        forecastCard.append(forecastHeading, tempEl);
+        forecastData.append(forecastCard);
+
+    }
+    weatherContainer.attr("stlye", "display:flex; justify-content: center")
+   
+    
+}
+
 
 function convertUnixTime(unixTime) {
     var time = new Date(unixTime)
@@ -259,6 +326,7 @@ function dateFormatter(unixTime) {
     return dateString;
 }
 
+// New Function
 function removeCard() {
     $(".brewCard").remove();
     $(".weatherCard").remove();
@@ -288,19 +356,23 @@ locationButton.on("click" , function(e) {
     
 })
 
-function setLocalStorage(name, city) {
+// New objects
+function setLocalStorage(brewName, brewStreet, brewCity, brewUrl) {
     favoriteArray.push({
-        breweryName: name,
-        breweryCity: city
+        name: brewName,
+        street: brewStreet,
+        city: brewCity,
+        Url: brewUrl
     })
 
     localStorage.setItem("favorites", JSON.stringify(favoriteArray))
 }
 
 function getLocalStorage() {
-    storedFavorites = JSON.parse(localStorage.getItem("favorites"));
-    console.log(storedFavorites);
+    storedFavorites = JSON.parse(localStorage.getItem("favorites")); 
+    favoriteArray = storedFavorites;
 }
+
 
 function removeFromLocalStorage(storedName) {
     for (i=0; i < favoriteArray.length; i++) {
@@ -310,5 +382,60 @@ function removeFromLocalStorage(storedName) {
         }
     }
 }
+
+function removeOldForecast() {
+    forecastData.children().remove()
+}
+
+// New function
+function renderFavorites() {
+    storedFavorites = JSON.parse(localStorage.getItem("favorites"));
+    for (i=0; i<storedFavorites.length; i++) {
+        displayFavorites(storedFavorites[i].name, storedFavorites[i].street, storedFavorites[i].city, 
+            storedFavorites[i].url)
+    }
+}
+
+// New function
+function displayFavorites(name, street, city, url) {
+    var favDiv = $('<div>')
+    var favUl = $('<ul>')
+    var favName = $('<p>')
+    var favUrl = $('<a>')
+    var favUrlIcon = $('<span class="material-icons-outlined">')
+    var favLocation = $('<p>')
+
+    favName.text(name)
+    favLocation.text(street + ", " + city)
+    favUrl.attr("href", url)
+    favUrlIcon.text("  URL")
+
+    favName.attr("style", "font-weight:bold;")
+
+    favUrl.append(favUrlIcon)
+    favName.append(favUrl)
+    favUl.append(favName, favLocation)
+    favDiv.append(favUl)
+    $('#favorite-box').append(favDiv)
+
+}
+
+// New function
+function removeFavorites() {
+    $('#favorite-box').children().remove()
+}
+
+// New Listener
+$("#favorite-btn").click(function(event) {
+    event.preventDefault();
+    $(".modal").addClass("is-active"); 
+    removeFavorites()
+    renderFavorites()
+  });
+   
+// New Listener
+  $(".modal-close").click(function() {
+     $(".modal").removeClass("is-active");
+  });
 
 init();
