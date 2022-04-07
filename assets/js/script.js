@@ -8,7 +8,7 @@ var locationButton = $("#location-button")
 var checkboxes = $('input[type=checkbox')
 
 var apiKey = "385e58697effddc1169cee4d7d6e5489"
-var perPage = "5"
+var perPage = "50"
 
 var favoriteArray = []
 var storedFavorites
@@ -17,13 +17,8 @@ var favoriteLabel = $("<label class='checkbox'>")
 var favoriteInput = $("<input type='checkbox' class='favorite'>")
 
 function init() {
-    var param = document.location.search
-
     removeCard(); 
-    console.log(param)
-    console.log(typeof param)
-    
-    initByLocation();
+    // initByLocation();
     
 }
 
@@ -119,12 +114,13 @@ function filterDistApi(lat, lon, type) {
     .then(function (data) { 
         createBrewCard(data)
     })
- }
+}
 
 function createBrewCard(data) {
     for (i=0; i < data.length; i++) {
                 
         var brewDiv = $('<div>').addClass("brewCard");
+        var headingDiv = $('<div>')
         var brewName = $("<h3>");
         var favoriteLabel = $("<label class='checkbox'>")
         var favoriteInput = $("<input type='checkbox' class='favorite'>")
@@ -133,7 +129,6 @@ function createBrewCard(data) {
         var li1 = $('<li>');
         var li2 = $('<li>');
         var li3 = $('<li class="brew-city">');
-        
         var li5 = $('<li>'); 
         var brewLink = $('<a>');
         brewLink.attr("href" , data[i].website_url)
@@ -147,17 +142,24 @@ function createBrewCard(data) {
         
         
         brewName.attr("style", "font-size: 2rem", "font-weight: bolder");
+        headingDiv.addClass('has-background-grey');
         brewDiv.attr("style", "border: 5px dotted gold; margin: 10px; width: 100%; padding: 10px;");
         //ul.children().attr("style", "position: center")
 
         favoriteLabel.append(favoriteInput);
         li5.append(brewLink);
-        ul.append(li1, li2, li3, li5) ;
-        brewDiv.append(brewName, ul, favoriteLabel);
+        ul.append(li1, li2, li3, li5);
+        headingDiv.append(brewName, favoriteLabel)
+        brewDiv.append(headingDiv, ul);
         brewData.append(brewDiv);
 
-        
     }
+
+    checkFavorite();
+ 
+}
+
+function checkFavorite() {
     $('input.favorite').on('change', function(){
         var thisBrewCard = $(this).parents('.brewCard')
             var thisBrewName = thisBrewCard.children('h3').text()
@@ -169,7 +171,7 @@ function createBrewCard(data) {
             removeFromLocalStorage(thisBrewName)
             
         }
-    });  
+    }); 
 }
 
 function getWeatherByCity(name) {
@@ -189,9 +191,9 @@ function getWeatherByCity(name) {
              weatherOneCall(lat1, lon1, name)
 
         })
-    }
+}
 
-    function weatherOneCall(lat, lon, name) { 
+function weatherOneCall(lat, lon, name) { 
         var weatherUrl = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&appid=" + apiKey + "&units=imperial"
 
         fetch(weatherUrl) 
@@ -233,6 +235,7 @@ function getWeatherByCity(name) {
                 currentDiv.append(weatherTitle, currentUl)
                 weatherData.append(currentDiv)
                 weatherContainer.append(weatherData)
+               
                 
                // 5 day forecast loop
                  for (i=1; i < 6; i++) {
@@ -242,7 +245,7 @@ function getWeatherByCity(name) {
                     console.log(day)
                 } 
             })
-    }
+}
 
 function convertUnixTime(unixTime) {
     var time = new Date(unixTime)
@@ -266,7 +269,7 @@ searchButton.on("click", function(e) {
     var searchValue = searchCity.val().trim()
     if(!searchValue) {
         alert('You need to enter a city or search by location'); 
-        return
+        return;
     } else {
     removeCard();
     getWeatherByCity(searchCity.val().trim());
@@ -296,6 +299,7 @@ function setLocalStorage(name, city) {
 
 function getLocalStorage() {
     storedFavorites = JSON.parse(localStorage.getItem("favorites"));
+    console.log(storedFavorites);
 }
 
 function removeFromLocalStorage(storedName) {

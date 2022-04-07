@@ -8,6 +8,9 @@ body {
 }
 #entireBox {
     border: 5px solid gold;
+    position: sticky;
+    top: 50px;
+    align-self: flex-start;
 }
 h1 {
     font-size: 3rem;
@@ -37,7 +40,7 @@ h4 {
     justify-content: center;
 }
 .brewData h3 {
-    background-color: gray;
+    /* background-color: gray; */
     padding: 5px;
     font-size: 30px;
     width: 100%;
