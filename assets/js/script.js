@@ -18,9 +18,18 @@ var favoriteLabel = $("<label class='checkbox'>")
 var favoriteInput = $("<input type='checkbox' class='favorite'>")
 
 function init() {
+    var searchParam = document.location.search
+    queryArray = searchParam.split('=')
+    
+
+    if (queryArray.includes('?q')) {
+        checkCityParam();
+    } else {
+        checkLocationParam();
+    }
     getLocalStorage();
     removeCard(); 
-    checkParam();
+   
 }
 
 function initByLocation() {
@@ -48,7 +57,7 @@ function initByCityType() {
     filterApi(byTypeQuery[0], byTypeQuery[1])
 }
 
-function checkParam() {
+function checkCityParam() {
     var queryArray = document.location.search.split('=')
     var secondQuery = queryArray[1].split('&')
     
@@ -60,6 +69,25 @@ function checkParam() {
         getWeatherByCity(secondQuery[0]);
     }
     
+}
+
+function checkLocationParam() {
+    var queryArray = document.location.search.split('=')
+    console.log(queryArray)
+    
+    var latQuery = queryArray[1].split('&lon')
+    var lonQuery = queryArray[2].split('&by_type')
+
+    console.log(latQuery, lonQuery)
+
+    if (queryArray[3] == "all") {
+        breweryApiByDistance(latQuery[0], lonQuery[0])
+        weatherOneCall(latQuery[0], lonQuery[0], "Your Location")
+    } else {
+        filterDistApi(latQuery, lonQuery[0], queryArray[3])
+        weatherOneCall(latQuery[0], lonQuery[0], "Your Location")
+    }
+
 }
   
 
@@ -115,7 +143,6 @@ function getUserLocation() {
         //try to get user current location using getCurrentPosition() method
         navigator.geolocation.getCurrentPosition(function(position){ 
             var brewType = $('#brewTypeOption').children("option:selected").val()
-            console.log("Found your location \nLat : "+position.coords.latitude+" \nLang :"+ position.coords.longitude);
             if (brewType === "" || brewType === "all") {
                 breweryApiByDistance(position.coords.latitude, position.coords.longitude)
                 weatherOneCall(position.coords.latitude, position.coords.longitude, "Your Location")
@@ -245,7 +272,7 @@ function weatherOneCall(lat, lon, name) {
            })
             .then(function (data) {
                 console.log(data)
-                   var sunset = data.current.sunset
+                var sunset = data.current.sunset
 
                  // Current weather element created
                  var currentDiv = $('<div>').addClass("weatherCard");
@@ -324,7 +351,6 @@ function displayForecast(data) {
     
 }
 
-
 function convertUnixTime(unixTime) {
     var time = new Date(unixTime)
     var timeString = time.toLocaleTimeString("en-US")
@@ -373,7 +399,7 @@ function setLocalStorage(brewName, brewStreet, brewCity, brewUrl) {
         name: brewName,
         street: brewStreet,
         city: brewCity,
-        Url: brewUrl
+        url: brewUrl
     })
 
     localStorage.setItem("favorites", JSON.stringify(favoriteArray))
@@ -405,6 +431,8 @@ function renderFavorites() {
         displayFavorites(storedFavorites[i].name, storedFavorites[i].street, storedFavorites[i].city, 
             storedFavorites[i].url)
     }
+
+    console.log(storedFavorites)
 }
 
 // New function
