@@ -308,7 +308,7 @@ function displayForecast(data) {
         forecastData.append(forecastCard);
 
     }
-    weatherContainer.attr("stlye", "display:flex; justify-content: center")
+    weatherContainer.attr("style", "display:flex; justify-content: center")
    
     
 }
