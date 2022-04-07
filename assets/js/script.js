@@ -26,9 +26,11 @@ function init() {
     queryArray = searchParam.split('=')
         if (queryArray.includes('?q')) {
             checkCityParam();
-        } else {
+        } else  if (queryArray.includes('?lat')){
             checkLocationParam();
-        } 
+        } else {
+            return;
+        }
 }
 
 function initByLocation() {
