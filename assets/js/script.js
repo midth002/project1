@@ -20,7 +20,6 @@ var favoriteInput = $("<input type='checkbox' class='favorite'>")
 function init() {
     getLocalStorage();
     removeCard(); 
-    
     checkParam();
 }
 
@@ -38,19 +37,31 @@ function initByLocation() {
 function initForCity() {
     var searchParamArr = document.location.search.split('?q=')
     var initialSearch = searchParamArr[1];
+   
     getBreweryApi(initialSearch);
     getWeatherByCity(initialSearch)
 }
 
+function initByCityType() {
+    var searchParamArr = document.location.search.split('?q=')
+    var byTypeQuery = searchParamArr[1].split('&by_type=')
+    filterApi(byTypeQuery[0], byTypeQuery[1])
+}
 
 function checkParam() {
     var queryArray = document.location.search.split('=')
-    if (queryArray.includes('?q')) {
-        initForCity();
+    var secondQuery = queryArray[1].split('&')
+    
+    if (queryArray[2] == "all") {
+        getBreweryApi(secondQuery[0])
+        getWeatherByCity(secondQuery[0]);
     } else {
-        initByLocation();
+        filterApi(secondQuery[0], queryArray[2])
+        getWeatherByCity(secondQuery[0]);
     }
+    
 }
+  
 
 function removeParam() {
     var queryString = "./results.html?"
@@ -270,7 +281,7 @@ function weatherOneCall(lat, lon, name) {
                 weatherContainer.append(weatherData)
                
                 
-               // 5 day forecast loop
+               // 7 day forecast loop
                displayForecast(data)
             })
 }
@@ -308,7 +319,7 @@ function displayForecast(data) {
         forecastData.append(forecastCard);
 
     }
-    weatherContainer.attr("stlye", "display:flex; justify-content: center")
+    
    
     
 }
