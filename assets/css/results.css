@@ -63,3 +63,10 @@ img {
 .custom-modal {
     display: none;
 }
+
+#entireBox {
+    border: 5px solid gold;
+    position: sticky;
+    top: 50px;
+    align-self: flex-start;
+}
