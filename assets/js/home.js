@@ -8,8 +8,7 @@ function searchFormSubmitCity() {
     var searchCityVal = searchCity.val();
 
     if (!searchCityVal) {
-        console.error("No city value in. You need to put in a value!");
-        return
+        return;
     } 
     var queryString = "./results.html?q=" + searchCityVal + "&by_type=all"
     location.assign(queryString)
@@ -19,8 +18,7 @@ function searchCityAndType(type) {
     
     var searchCityVal = searchCity.val();
     if (!searchCityVal) {
-        console.error("No city value in. You need to put in a value!");
-        return
+        return;
     } 
     var queryString = "./results.html?q=" + searchCityVal + "&by_type=" + type
     location.assign(queryString)
