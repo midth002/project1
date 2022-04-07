@@ -66,11 +66,9 @@ li {
     font-family: 'Oufit';
  
 }
-
 .custom-modal {
     display: none;
 }
-
 #entireBox {
     border: brown 15px solid;
     position: sticky;

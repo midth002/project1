@@ -376,7 +376,6 @@ searchButton.on("click", function(e) {
     e.preventDefault();
     var searchValue = searchCity.val().trim()
     if(!searchValue) {
-        alert('You need to enter a city or search by location'); 
         return;
     } else {
     removeCard();
