@@ -205,9 +205,10 @@ function createBrewCard(data) {
         favoriteLabel.text("Favorites ")
         li1.text("Brewery Type: " + data[i].brewery_type);
         li2.text("Street Address: " + data[i].street);
-        li3.text(data[i].city + " " + data[i].state);
+        li3.text(data[i].city + "," + " " + data[i].state);
         
         
+        favoriteLabel.attr("style", "margin-bottom: 20px");
         brewName.attr("style", "font-size: 2rem", "font-weight: bolder");
         headingDiv.addClass('has-background-grey');
         brewDiv.attr("style", "border: 5px dotted gold; margin: 10px; width: 100%; padding: 10px;");
