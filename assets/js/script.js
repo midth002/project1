@@ -74,12 +74,10 @@ function checkCityParam() {
 
 function checkLocationParam() {
     var queryArray = document.location.search.split('=')
-    console.log(queryArray)
     
     var latQuery = queryArray[1].split('&lon')
     var lonQuery = queryArray[2].split('&by_type')
 
-    console.log(latQuery, lonQuery)
 
     if (queryArray[3] == "all") {
         breweryApiByDistance(latQuery[0], lonQuery[0])
@@ -106,7 +104,7 @@ function getBreweryApi(city) {
             return response.json();
         })  
         .then(function (data) { 
-            console.log(data)
+
             checkNumOfResults(data.length)
             createBrewCard(data)
         })
@@ -132,7 +130,6 @@ function filterApi(city, type) {
             return response.json();
         })  
         .then(function (data) { 
-            console.log(data)
             checkNumOfResults(data.length)
             createBrewCard(data)
         })
@@ -257,7 +254,6 @@ function getWeatherByCity(name) {
         })
 
         .then(function (data) { 
-            console.log(data)
              var lat1 = data[0].lat.toString()
              var lon1 = data[0].lon.toString()
 
@@ -274,7 +270,6 @@ function weatherOneCall(lat, lon, name) {
                return response.json();
            })
             .then(function (data) {
-                console.log(data)
                 var sunset = data.current.sunset
 
                  // Current weather element created
@@ -434,8 +429,6 @@ function renderFavorites() {
         displayFavorites(storedFavorites[i].name, storedFavorites[i].street, storedFavorites[i].city, 
             storedFavorites[i].Url)
     }
-
-    console.log(storedFavorites)
 }
 
 // New function
